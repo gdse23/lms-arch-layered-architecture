@@ -189,4 +189,23 @@ public class ManageMembersFormController {
             throw new RuntimeException(e);
         }
     }
+
+
+    //let's try some methods which has join queries
+    public int getIssuedBooksCountByMemberId(String memberId){
+        try {
+            Connection connection= DBConnection.getDbConnection().getConnection();
+            PreparedStatement stm = connection.prepareStatement("SELECT (COUNT(i.issue_id)-COUNT(R.issue_id))  AS borrowedItems FROM Member m LEFT JOIN issue i on m.id = i.memberId\n" +
+                    "LEFT JOIN `Return` R on i.issue_id = R.issue_id\n" +
+                    "WHERE m.id=?\n" +
+                    "GROUP BY m.id");
+
+            stm.setString(1,memberId);
+            ResultSet rst = stm.executeQuery();
+            rst.next();
+            return rst.getInt("borrowedItems");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package lk.ijse.gdse.controller.member;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.stage.WindowEvent;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -17,6 +19,7 @@ public class UpdateMemberFormController {
 
     public MemberTM memberTM;
     public ManageMembersFormController manageMembersFormController;
+
 
     public void init(MemberTM memberTM,ManageMembersFormController manageMembersFormController){
         this.memberTM=memberTM;
@@ -51,6 +54,9 @@ public class UpdateMemberFormController {
         //upto now all fields are validated
         MemberTM updatedMemberTM = new MemberTM(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
         if(manageMembersFormController.updateMember(updatedMemberTM)){
+            manageMembersFormController.tblMembers.getItems()
+                    .add(manageMembersFormController.tblMembers.getSelectionModel()
+                            .getSelectedIndex(),new MemberTM(memberTM.getId(), txtName.getText(),txtAddress.getText(),txtContact.getText()));
             new Alert(Alert.AlertType.INFORMATION,"Member has been successfully updated!").show();
         }else {
             new Alert(Alert.AlertType.ERROR,"Failed to update the Member,try again!").show();
@@ -58,6 +64,11 @@ public class UpdateMemberFormController {
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
+        if (manageMembersFormController.getIssuedBooksCountByMemberId(memberTM.getId())>0){
+            new Alert(Alert.AlertType.WARNING,"Member already borrowed some books, Return items first and try again!").show();
+            txtContact.getScene().getWindow().hide();
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get()==ButtonType.YES){

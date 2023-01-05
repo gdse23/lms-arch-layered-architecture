@@ -26,3 +26,13 @@ CREATE TABLE  `Return` (
                            date DATE NOT NULL ,
                            CONSTRAINT fk_issue_id FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
 );
+
+/* Join query to find issued count , return count and Rest Count*/
+
+SELECT m.id AS Member_Id,
+       COUNT(i.issue_id) AS Issued_Count ,
+       COUNT(R.issue_id) AS Return_Count,
+       (COUNT(i.issue_id)-COUNT(R.issue_id))  AS Rest_Count
+        FROM Member m LEFT JOIN issue i on m.id = i.memberId
+        LEFT JOIN `Return` R on i.issue_id = R.issue_id
+        GROUP BY m.id;
