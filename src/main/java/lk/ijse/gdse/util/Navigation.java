@@ -50,6 +50,8 @@ public class Navigation {
             case MENU:
                 resource= Navigation.class.getResource("/view/MenuForm.fxml");
                 container.setTitle("Menu- LMS");
+                break;
+
         }
 
 
