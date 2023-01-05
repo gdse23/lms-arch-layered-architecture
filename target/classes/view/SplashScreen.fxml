@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="295.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.SplashScreenController">
+   <children>
+      <ImageView fitHeight="279.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/splashimg2.png" />
+         </image>
+      </ImageView>
+      <Rectangle fx:id="rctContainer" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="8.0" layoutX="4.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" width="487.0" />
+      <Label layoutX="190.0" layoutY="171.0" text="LMS V1.0.0">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="20.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="rctLoading" arcHeight="5.0" arcWidth="5.0" fill="#1ffff9" height="8.0" layoutX="4.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" width="26.0" />
+      <Label fx:id="lblLoading" layoutX="141.0" layoutY="202.0" text="Welcome to Library Management System" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="103.0" />
+      <ImageView fitHeight="65.0" fitWidth="81.0" layoutX="417.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/gdse_logo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

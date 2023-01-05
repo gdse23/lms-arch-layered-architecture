@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.MainFormController">
+   <children>
+      <AnchorPane fx:id="pneContainer" layoutX="5.0" layoutY="82.0"  prefHeight="607.0" prefWidth="1072.0" style="-fx-background-color: #f0f0f0;" AnchorPane.bottomAnchor="30.799999999999955" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="82.0" />
+      <ImageView fx:id="imgLogo" fitHeight="69.0" fitWidth="83.0" layoutX="19.0" layoutY="10.0" onMouseClicked="#imgLogoOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/library-logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="253.0" layoutY="20.0" prefHeight="48.0" prefWidth="609.0" text="Library Management System">
+         <font>
+            <Font name="DejaVu Serif Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="371.0" layoutY="690.0" prefHeight="23.0" prefWidth="392.0" text="License@ ijse.gdse.63|61 . All Ringhts reserved" AnchorPane.bottomAnchor="6.800000000000001" AnchorPane.topAnchor="690.0">
+         <font>
+            <Font name="DejaVu Sans Bold" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

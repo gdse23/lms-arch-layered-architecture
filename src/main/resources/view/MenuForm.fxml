@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:controller="lk.ijse.gdse.controller.MenuFormController" fx:id="pneContainer" prefHeight="607.0" prefWidth="1072.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXButton fx:id="btnMembers" layoutX="108.0" layoutY="137.0" onAction="#btnMembersOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Manage Members" textFill="WHITE" />
+      <JFXButton fx:id="btnBooks" layoutX="325.0" layoutY="137.0" onAction="#btnBooksOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Manage Books" textFill="WHITE" />
+      <JFXButton fx:id="btnIssues" layoutX="527.0" layoutY="137.0" onAction="#btnIssuesOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Handle Issues" textFill="WHITE" />
+      <JFXButton fx:id="btnReturn" layoutX="740.0" layoutY="137.0" onAction="#btnReturnOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Returns" textFill="WHITE" />
+   </children>
+</AnchorPane>
