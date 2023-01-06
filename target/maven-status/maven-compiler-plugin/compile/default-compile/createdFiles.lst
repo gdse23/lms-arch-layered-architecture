@@ -2,6 +2,7 @@ lk/ijse/gdse/util/Navigation.class
 lk/ijse/gdse/controller/ManageMembersFormController.class
 lk/ijse/gdse/view/tm/Status.class
 lk/ijse/gdse/controller/member/UpdateMemberFormController.class
+lk/ijse/gdse/controller/book/UpdateBookFormController.class
 lk/ijse/gdse/controller/member/AddMemberFormController.class
 lk/ijse/gdse/view/tm/BookTM.class
 lk/ijse/gdse/controller/SplashScreenController.class

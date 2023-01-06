@@ -13,13 +13,13 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="324.0" prefWidth="542.0" style="-fx-border-image-width: 10; -fx-border-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.member.UpdateMemberFormController">
+<AnchorPane prefHeight="324.0" prefWidth="542.0" style="-fx-border-image-width: 10; -fx-border-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.book.UpdateBookFormController">
    <children>
       <AnchorPane layoutX="6.0" layoutY="6.0" prefHeight="138.0" prefWidth="143.0">
          <children>
             <ImageView fitHeight="159.0" fitWidth="150.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="14.0">
                <image>
-                  <Image url="@../../assets/update_user.png" />
+                  <Image url="@../../assets/update_book.png.png" />
                </image>
                <effect>
                   <DropShadow />
@@ -32,19 +32,19 @@
             <TextFlow prefHeight="20.0" prefWidth="122.0" />
             <TextFlow layoutX="4.0" layoutY="14.0" prefHeight="20.0" prefWidth="122.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NAME: " />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TITLE:" />
                </children>
             </TextFlow>
-            <TextField fx:id="txtName" layoutY="34.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Pradeep" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
+            <TextField fx:id="txtTitle" layoutY="34.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Software Architecture Patterns" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
             <TextFlow layoutY="145.0" prefHeight="20.0" prefWidth="122.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="QTY:" />
                </children>
             </TextFlow>
-            <TextField fx:id="txtAddress" layoutX="-1.0" layoutY="99.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Panadura" />
+            <TextField fx:id="txtAuthor" layoutX="-1.0" layoutY="99.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Mark Richards" />
             <TextFlow layoutY="216.0" prefHeight="20.0" prefWidth="122.0" />
-            <TextField fx:id="txtContact" layoutX="-1.0" layoutY="173.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex. 071-1234567" />
-            <Text layoutX="1.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADDRESS: " />
+            <TextField fx:id="txtQty" layoutX="-1.0" layoutY="173.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex. 8" />
+            <Text layoutX="1.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AUTHOR" />
          </children>
       </AnchorPane>
       <Button fx:id="btnUpdate" layoutX="229.0" layoutY="256.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="49.0" prefWidth="102.0" style="-fx-background-color: #64bc44;" text="Update" textFill="WHITE" AnchorPane.leftAnchor="229.0" AnchorPane.topAnchor="256.0">
@@ -57,9 +57,14 @@
             <Font name="DejaVu Sans Condensed Bold" size="13.0" />
          </font>
       </Button>
-      <Label fx:id="lblId" alignment="CENTER" layoutY="171.0" prefHeight="26.0" prefWidth="162.0" text="M001">
+      <Label fx:id="lblIsbn" alignment="CENTER" layoutX="57.0" layoutY="168.0" prefHeight="26.0" prefWidth="122.0" text="1234567891234">
          <font>
-            <Font name="DejaVu Serif Bold" size="16.0" />
+            <Font name="DejaVu Serif Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="20.0" layoutY="171.0" prefHeight="20.0" prefWidth="44.0" text="ISBN:">
+         <font>
+            <Font name="DejaVu Serif Bold" size="12.0" />
          </font>
       </Label>
    </children>

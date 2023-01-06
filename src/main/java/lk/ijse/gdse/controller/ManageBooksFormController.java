@@ -13,7 +13,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.gdse.controller.book.AddBookFormController;
+import lk.ijse.gdse.controller.book.UpdateBookFormController;
 import lk.ijse.gdse.controller.member.AddMemberFormController;
+import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
@@ -35,12 +37,10 @@ public class ManageBooksFormController {
     public Button btnAddBook;
     public TextField txtSearch;
     public Button btnUpdate;
-    public Button btnIssueList;
     public TableView<BookTM> tblBooks;
 
     public void initialize() throws SQLException, ClassNotFoundException {
         btnUpdate.setDisable(true);
-        btnIssueList.setDisable(true);
         tblBooks.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tblBooks.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("title"));
         tblBooks.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -59,7 +59,6 @@ public class ManageBooksFormController {
         tblBooks.getSelectionModel().selectedItemProperty().addListener((observableValue, pre, curr) -> {
             if (curr!=pre || curr!=null){
                 btnUpdate.setDisable(false);
-                btnIssueList.setDisable(false);
             }
 
         });
@@ -83,12 +82,22 @@ public class ManageBooksFormController {
         stage.show();
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws IOException {
+        URL resource = this.getClass().getResource("/view/book/UpdateBookForm.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
+        Parent load = fxmlLoader.load();
+        UpdateBookFormController controller = fxmlLoader.getController();
+        controller.init(tblBooks.getSelectionModel().getSelectedItem(),this);
+        Stage stage = new Stage();
+        stage.setTitle("Update/Delete Book details");
+        stage.setScene(new Scene(load));
+        stage.centerOnScreen();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
 
     public void btnIssuedListOnAction(ActionEvent actionEvent) {
     }
-
 
 
     //business logics and data logics
@@ -156,5 +165,32 @@ public class ManageBooksFormController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public boolean updateBook(BookTM updatedBook) {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");
+            stm.setString(1,updatedBook.getTitle());
+            stm.setString(2,updatedBook.getAuthor());
+            stm.setInt(3,updatedBook.getQty());
+            stm.setString(4,updatedBook.getIsbn());
+
+            return stm.executeUpdate()==1;
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean deleteBookByIsbn(String isbn) {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement stm = connection.prepareStatement("DELETE  FROM Book WHERE isbn=?");
+            stm.setString(1,isbn);
+            return stm.executeUpdate()==1;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -52,9 +52,11 @@ public class UpdateMemberFormController {
         //upto now all fields are validated
         MemberTM updatedMemberTM = new MemberTM(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
         if(manageMembersController.updateMember(updatedMemberTM)){
+            int selectedIndex = manageMembersController.tblMembers.getSelectionModel()
+                    .getSelectedIndex();
             manageMembersController.tblMembers.getItems()
-                    .add(manageMembersController.tblMembers.getSelectionModel()
-                            .getSelectedIndex(),new MemberTM(memberTM.getId(), txtName.getText(),txtAddress.getText(),txtContact.getText()));
+                    .add(selectedIndex,updatedMemberTM);
+            manageMembersController.tblMembers.getItems().remove(selectedIndex+1);
             new Alert(Alert.AlertType.INFORMATION,"Member has been successfully updated!").show();
         }else {
             new Alert(Alert.AlertType.ERROR,"Failed to update the Member,try again!").show();
@@ -69,7 +71,7 @@ public class UpdateMemberFormController {
         }
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get()==ButtonType.YES){
+        if (result.isPresent() && result.get()==ButtonType.YES){
             if(manageMembersController.deleteMemberById(memberTM.getId())) {
                 new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
                 manageMembersController.tblMembers.getItems().
