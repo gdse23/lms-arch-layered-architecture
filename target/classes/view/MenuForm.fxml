@@ -1,13 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:controller="lk.ijse.gdse.controller.MenuFormController" fx:id="pneContainer" prefHeight="607.0" prefWidth="1072.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pneContainer" prefHeight="607.0" prefWidth="1072.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.MenuFormController">
    <children>
-      <JFXButton fx:id="btnMembers" layoutX="108.0" layoutY="137.0" onAction="#btnMembersOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Manage Members" textFill="WHITE" />
-      <JFXButton fx:id="btnBooks" layoutX="325.0" layoutY="137.0" onAction="#btnBooksOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Manage Books" textFill="WHITE" />
-      <JFXButton fx:id="btnIssues" layoutX="527.0" layoutY="137.0" onAction="#btnIssuesOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Handle Issues" textFill="WHITE" />
-      <JFXButton fx:id="btnReturn" layoutX="740.0" layoutY="137.0" onAction="#btnReturnOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #9f7c3f;" text="Returns" textFill="WHITE" />
+      <HBox alignment="CENTER" layoutX="108.0" layoutY="137.0" spacing="60.0">
+         <children>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btnMembers" onAction="#btnMembersOnAction" prefHeight="138.0" prefWidth="194.0" style="-fx-background-color: #6f9463;" text=" " textFill="#0f0f0f">
+                     <font>
+                        <Font name="DejaVu Serif Condensed Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="117.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/manage_members.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label text="Manage Members">
+                     <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btnBooks" onAction="#btnBooksOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #ea6e27;" text=" " textFill="#0f0f0f">
+                     <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="117.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/manage_books.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label text="Manage Books">
+                     <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btnIssues" onAction="#btnIssuesOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #99c048;" text=" " textFill="#0f0f0f">
+                     <font>
+                        <Font name="DejaVu Serif Bold" size="15.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="117.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/manage_issues.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label text="Handle Issues">
+                     <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btnReturn" onAction="#btnReturnOnAction" prefHeight="138.0" prefWidth="169.0" style="-fx-background-color: #e05b2e;" text=" " textFill="#0f0f0f">
+                     <font>
+                        <Font name="DejaVu Serif Condensed Bold" size="15.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="117.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/return_book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label text="Returns">
+                     <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
