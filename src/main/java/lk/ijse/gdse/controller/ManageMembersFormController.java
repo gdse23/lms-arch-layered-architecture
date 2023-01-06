@@ -14,18 +14,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.gdse.controller.member.AddMemberFormController;
+import lk.ijse.gdse.controller.member.ShowIssueListFormController;
 import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
+import lk.ijse.gdse.view.tm.IssueTM;
 import lk.ijse.gdse.view.tm.MemberTM;
+import lk.ijse.gdse.view.tm.Status;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,13 +77,25 @@ public class ManageMembersFormController {
         UpdateMemberFormController controller = fxmlLoader.getController();
         controller.init(tblMembers.getSelectionModel().getSelectedItem(),this);
         Stage stage = new Stage();
+        stage.setTitle("Update/Delete Member details");
         stage.setScene(new Scene(load));
         stage.centerOnScreen();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
-    public void btnIssuedListOnAction(ActionEvent actionEvent) {
+    public void btnIssuedListOnAction(ActionEvent actionEvent) throws IOException {
+        URL resource = this.getClass().getResource("/view/member/ShowIssueListForm.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
+        Parent load = fxmlLoader.load();
+        ShowIssueListFormController controller = fxmlLoader.getController();
+        controller.init(tblMembers.getSelectionModel().getSelectedItem(),this);
+        Stage stage = new Stage();
+        stage.setTitle("Issued books list");
+        stage.setScene(new Scene(load));
+        stage.centerOnScreen();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
 
     public void btnAddMemberOnAction(ActionEvent actionEvent) throws IOException {
@@ -208,4 +220,26 @@ public class ManageMembersFormController {
             throw new RuntimeException(e);
         }
     }
+
+
+    public List<IssueTM> findAllIssuesById(String memberId){
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            List<IssueTM> issueTMList =new ArrayList<>();
+
+            PreparedStatement stm =
+                    connection.prepareStatement("SELECT M.id AS memberId,i.issue_id AS issueId,i.date AS issuedDate,(R.date IS NULL ) AS returnStatus FROM issue i LEFT JOIN `Return` R on i.issue_id = R.issue_id LEFT JOIN  Member M on i.memberId = M.id WHERE M.id=?");
+            stm.setString(1,memberId);
+            ResultSet rst = stm.executeQuery();
+            while (rst.next()){
+                IssueTM issueTM = new IssueTM(rst.getString("issueId"), rst.getDate("issuedDate"), rst.getBoolean("returnStatus") ? Status.NOT_RETURNED : Status.RETURNED);
+                issueTMList.add(issueTM);
+            }
+            return issueTMList;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

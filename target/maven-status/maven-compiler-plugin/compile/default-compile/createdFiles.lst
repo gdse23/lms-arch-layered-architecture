@@ -4,7 +4,9 @@ lk/ijse/gdse/controller/ManageReturnsFormController.class
 lk/ijse/gdse/controller/ManageMembersFormController.class
 lk/ijse/gdse/controller/ManageIssuesFormController.class
 lk/ijse/gdse/controller/MenuFormController.class
+lk/ijse/gdse/view/tm/Status.class
 lk/ijse/gdse/controller/member/UpdateMemberFormController.class
+lk/ijse/gdse/view/tm/IssueTM.class
 lk/ijse/gdse/controller/member/AddMemberFormController.class
 lk/ijse/gdse/controller/SplashScreenController.class
 lk/ijse/gdse/db/DBConnection.class
