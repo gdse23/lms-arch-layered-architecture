@@ -3,10 +3,17 @@ package lk.ijse.gdse.controller;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import lk.ijse.gdse.controller.book.AddBookFormController;
+import lk.ijse.gdse.controller.member.AddMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
@@ -14,6 +21,7 @@ import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +69,18 @@ public class ManageBooksFormController {
         Navigation.navigate(Route.MENU);
     }
 
-    public void btnAddBookOnAction(ActionEvent actionEvent) {
+    public void btnAddBookOnAction(ActionEvent actionEvent) throws IOException {
+        URL resource = this.getClass().getResource("/view/book/AddBookForm.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
+        Parent load = fxmlLoader.load();
+        AddBookFormController addBookFormController = fxmlLoader.getController();
+        addBookFormController.init(tblBooks,this);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(load));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("New Book Registration Form");
+        stage.centerOnScreen();
+        stage.show();
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {

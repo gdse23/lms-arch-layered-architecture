@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DisplacementMap?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.FloatMap?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="325.0" prefWidth="532.0" style="-fx-border-image-width: 10; -fx-border-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.book.AddBookFormController">
+   <children>
+      <AnchorPane layoutX="6.0" layoutY="6.0" prefHeight="138.0" prefWidth="143.0">
+         <children>
+            <ImageView fitHeight="124.0" fitWidth="155.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../../assets/new_book_img.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="7.0" layoutY="103.0" prefHeight="97.0" prefWidth="155.0" text="New Book+">
+               <font>
+                  <Font name="DejaVu Serif Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="215.0" layoutY="27.0" prefHeight="270.0" prefWidth="270.0">
+         <children>
+            <TextFlow prefHeight="20.0" prefWidth="122.0">
+               <children>
+                  <Text fill="#1b0202" strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN:" />
+                  <Text fill="#d91616" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+               </children>
+            </TextFlow>
+            <TextField fx:id="txtIsbn" layoutY="29.0" prefHeight="26.0" prefWidth="253.0" promptText="Ex. 978-1-56619-909-4 " />
+            <TextFlow layoutY="69.0" prefHeight="20.0" prefWidth="122.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TITLE:" />
+                  <Text fill="#d91616" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+               </children>
+            </TextFlow>
+            <TextField fx:id="txtTitle" layoutY="96.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Software Architecture Patterns" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="96.0" />
+            <TextFlow layoutY="145.0" prefHeight="20.0" prefWidth="122.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="AUTHOR:" />
+                  <Text fill="#d91616" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+               </children>
+            </TextFlow>
+            <TextField fx:id="txtAuthor" layoutY="172.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex.Mark Richards" />
+            <TextFlow layoutY="216.0" prefHeight="20.0" prefWidth="122.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="QTY:" />
+                  <Text fill="#d91616" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+               </children>
+            </TextFlow>
+            <TextField fx:id="txtQty" layoutX="-1.0" layoutY="243.0" prefHeight="26.0" prefWidth="254.0" promptText="Ex. 10" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnRegister" layoutX="42.0" layoutY="247.0" mnemonicParsing="false" onAction="#btnRegisterOnAction" prefHeight="49.0" prefWidth="102.0" style="-fx-background-color: #ff6476;" text="REGISTER" textFill="#4e4040" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="247.0">
+         <font>
+            <Font name="DejaVu Sans Condensed Bold" size="13.0" />
+         </font>
+      </Button>
+   </children>
+   <effect>
+      <DisplacementMap>
+         <mapData>
+            <FloatMap />
+         </mapData>
+      </DisplacementMap>
+   </effect>
+</AnchorPane>
