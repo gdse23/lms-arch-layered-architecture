@@ -13,4 +13,5 @@ lk/ijse/gdse/util/Navigation$1.class
 lk/ijse/gdse/util/Route.class
 lk/ijse/gdse/view/tm/MemberTM.class
 lk/ijse/gdse/controller/MainFormController.class
+lk/ijse/gdse/controller/member/ShowIssueListFormController.class
 AppInitializer.class
