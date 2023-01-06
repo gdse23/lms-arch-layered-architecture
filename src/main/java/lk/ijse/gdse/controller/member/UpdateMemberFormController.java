@@ -3,6 +3,7 @@ package lk.ijse.gdse.controller.member;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageMembersFormController;
+import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class UpdateMemberFormController {
 
         //upto now all fields are validated
         MemberTM updatedMemberTM = new MemberTM(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
-        if(manageMembersController.updateMember(updatedMemberTM)){
+        if(ManageMemberModel.updateMember(updatedMemberTM)){
             int selectedIndex = manageMembersController.tblMembers.getSelectionModel()
                     .getSelectedIndex();
             manageMembersController.tblMembers.getItems()
@@ -64,7 +65,7 @@ public class UpdateMemberFormController {
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
-        if (manageMembersController.getIssuedBooksCountByMemberId(memberTM.getId())>0){
+        if (ManageMemberModel.getIssuedBooksCountByMemberId(memberTM.getId())>0){
             new Alert(Alert.AlertType.WARNING,"Member already borrowed some books, Return items first and try again!").show();
             txtContact.getScene().getWindow().hide();
             return;
@@ -72,7 +73,7 @@ public class UpdateMemberFormController {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
-            if(manageMembersController.deleteMemberById(memberTM.getId())) {
+            if(ManageMemberModel.deleteMemberById(memberTM.getId())) {
                 new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
                 manageMembersController.tblMembers.getItems().
                         removeAll(manageMembersController.tblMembers.getSelectionModel().getSelectedItem());

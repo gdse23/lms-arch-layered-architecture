@@ -16,7 +16,9 @@ lk/ijse/gdse/controller/ManageIssuesFormController.class
 lk/ijse/gdse/controller/MenuFormController.class
 lk/ijse/gdse/view/tm/IssueTM.class
 lk/ijse/gdse/util/Navigation$1.class
+lk/ijse/gdse/model/ManageMemberModel.class
 lk/ijse/gdse/controller/book/AddBookFormController.class
 lk/ijse/gdse/util/Route.class
 lk/ijse/gdse/view/tm/MemberTM.class
 lk/ijse/gdse/controller/member/ShowIssueListFormController.class
+lk/ijse/gdse/model/ManageBookModel.class

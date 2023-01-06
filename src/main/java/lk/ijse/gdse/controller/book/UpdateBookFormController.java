@@ -3,6 +3,7 @@ package lk.ijse.gdse.controller.book;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageBooksFormController;
+import lk.ijse.gdse.model.ManageBookModel;
 import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -35,7 +36,7 @@ public class UpdateBookFormController {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
-            if(manageBooksController.deleteBookByIsbn(bookTM.getIsbn())) {
+            if(ManageBookModel.deleteBookByIsbn(bookTM.getIsbn())) {
                 new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
                 manageBooksController.tblBooks.getItems().
                         removeAll(manageBooksController.tblBooks.getSelectionModel().getSelectedItem());
@@ -67,7 +68,7 @@ public class UpdateBookFormController {
         //Upto now all fields are validated
 
         BookTM updatedBook = new BookTM(bookTM.getIsbn(), txtTitle.getText(), txtAuthor.getText(), Integer.parseInt(txtQty.getText()));
-        if(manageBooksController.updateBook(updatedBook)){
+        if(ManageBookModel.updateBook(updatedBook)){
             int selectedIndex = manageBooksController.tblBooks.getSelectionModel()
                     .getSelectedIndex();
             manageBooksController.tblBooks.getItems()

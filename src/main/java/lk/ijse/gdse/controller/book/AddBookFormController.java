@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageBooksFormController;
 import lk.ijse.gdse.controller.ManageMembersFormController;
+import lk.ijse.gdse.model.ManageBookModel;
 import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -55,7 +56,7 @@ public class AddBookFormController {
 
         //upto now all fields are validated
         //let's do some business validations here...
-        else if (manageBooksController.existBookByIsbn(txtIsbn.getText())) {
+        else if (ManageBookModel.existBookByIsbn(txtIsbn.getText())) {
             new Alert(Alert.AlertType.ERROR,"Member Already Exists").show();
             txtIsbn.selectAll();
             txtIsbn.requestFocus();
@@ -63,7 +64,7 @@ public class AddBookFormController {
         }
         BookTM book=new BookTM(txtIsbn.getText(),txtTitle.getText(),txtAuthor.getText(),Integer.parseInt(txtQty.getText()));
 
-        if(manageBooksController.addBook(book)){
+        if(ManageBookModel.addBook(book)){
             new Alert(Alert.AlertType.CONFIRMATION,"Successfully Registered !").show();
             tblBooks.getItems().add(book);
             txtIsbn.clear();

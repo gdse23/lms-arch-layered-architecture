@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageMembersFormController;
+import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.sql.SQLException;
@@ -19,11 +20,8 @@ public class AddMemberFormController {
 
     public TableView<MemberTM> tblMembers;
 
-    public ManageMembersFormController manageMembersFormController;
-
     public void init(TableView<MemberTM> tblMembers, ManageMembersFormController manageMembersFormController){
         this.tblMembers=tblMembers;
-        this.manageMembersFormController=manageMembersFormController;
     }
 
 
@@ -54,7 +52,7 @@ public class AddMemberFormController {
 
         //upto now all fields are validated
         //let's do some business validations here...
-        else if (manageMembersFormController.existMemberById(txtID.getText())) {
+        else if (ManageMemberModel.existMemberById(txtID.getText())) {
             new Alert(Alert.AlertType.ERROR,"Member Already Exists").show();
             txtID.selectAll();
             txtID.requestFocus();
@@ -62,7 +60,7 @@ public class AddMemberFormController {
         }
         MemberTM member=new MemberTM(txtID.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText());
 
-        if(manageMembersFormController.addMember(member)){
+        if(ManageMemberModel.addMember(member)){
             new Alert(Alert.AlertType.CONFIRMATION,"Successfully Registered !").show();
             tblMembers.getItems().add(member);
             txtID.clear();

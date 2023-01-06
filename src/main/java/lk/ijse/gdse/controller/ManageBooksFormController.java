@@ -17,6 +17,7 @@ import lk.ijse.gdse.controller.book.UpdateBookFormController;
 import lk.ijse.gdse.controller.member.AddMemberFormController;
 import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
+import lk.ijse.gdse.model.ManageBookModel;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.BookTM;
@@ -46,12 +47,12 @@ public class ManageBooksFormController {
         tblBooks.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("author"));
         tblBooks.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("qty"));
 
-        tblBooks.setItems(FXCollections.observableArrayList(getAllBooks()));
+        tblBooks.setItems(FXCollections.observableArrayList(ManageBookModel.getAllBooks()));
 
         txtSearch.textProperty().addListener((observableValue, pre, curr) ->{
             if (!Objects.equals(pre, curr)){
                 tblBooks.getItems().clear();
-                tblBooks.setItems(FXCollections.observableArrayList(searchBooks(curr)));
+                tblBooks.setItems(FXCollections.observableArrayList(ManageBookModel.searchBooks(curr)));
             }
 
         } );
@@ -96,101 +97,4 @@ public class ManageBooksFormController {
         stage.show();
     }
 
-    public void btnIssuedListOnAction(ActionEvent actionEvent) {
-    }
-
-
-    //business logics and data logics
-
-    private List<BookTM> searchBooks(String searchText) {
-
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn LIKE ? OR  title LIKE ? OR author LIKE ? ");
-            searchText="%"+searchText+"%";
-            stm.setString(1,searchText);
-            stm.setString(2,searchText);
-            stm.setString(3,searchText);
-            ResultSet rst = stm.executeQuery();
-            List<BookTM> bookList=new ArrayList<>();
-            while (rst.next()){
-                BookTM book = new BookTM(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
-                bookList.add(book);
-            }
-            return bookList;
-        } catch (SQLException| ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private List<BookTM> getAllBooks() {
-        try {
-            Connection connection  = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book");
-            ResultSet rst = stm.executeQuery();
-            List<BookTM> bookList =new ArrayList<>();
-            while (rst.next()){
-                BookTM book = new BookTM(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
-                bookList.add(book);
-            }
-            return bookList;
-        } catch (SQLException |ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean existBookByIsbn(String isbn) {
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
-            stm.setString(1,isbn);
-            ResultSet rst = stm.executeQuery();
-            return rst.next();
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean addBook(BookTM book) {
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
-            stm.setString(1,book.getIsbn());
-            stm.setString(2,book.getTitle());
-            stm.setString(3,book.getAuthor());
-            stm.setInt(4,book.getQty());
-            return stm.executeUpdate()==1;
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public boolean updateBook(BookTM updatedBook) {
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");
-            stm.setString(1,updatedBook.getTitle());
-            stm.setString(2,updatedBook.getAuthor());
-            stm.setInt(3,updatedBook.getQty());
-            stm.setString(4,updatedBook.getIsbn());
-
-            return stm.executeUpdate()==1;
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean deleteBookByIsbn(String isbn) {
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("DELETE  FROM Book WHERE isbn=?");
-            stm.setString(1,isbn);
-            return stm.executeUpdate()==1;
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.controller.ManageMembersFormController;
+import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.view.tm.IssueTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -21,16 +22,15 @@ public class ShowIssueListFormController {
     public Label lblName;
     public Label lblDate;
 
-    public void init(MemberTM selectedItem, ManageMembersFormController manageMemberController) {
+    public void init(MemberTM selectedItem) {
         this.selectedMember=selectedItem;
-        this.manageMemberController=manageMemberController;
         initFields(selectedMember);
 
         tblIssueList.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("issueId"));
         tblIssueList.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("date"));
         tblIssueList.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        tblIssueList.getItems().addAll(FXCollections.observableArrayList(manageMemberController.findAllIssuesById(selectedMember.getId())));
+        tblIssueList.getItems().addAll(FXCollections.observableArrayList(ManageMemberModel.findAllIssuesById(selectedMember.getId())));
 
         
     }
