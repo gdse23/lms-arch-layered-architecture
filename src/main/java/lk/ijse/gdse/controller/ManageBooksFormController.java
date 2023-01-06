@@ -130,4 +130,31 @@ public class ManageBooksFormController {
         }
     }
 
+    public boolean existBookByIsbn(String isbn) {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
+            stm.setString(1,isbn);
+            ResultSet rst = stm.executeQuery();
+            return rst.next();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean addBook(BookTM book) {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
+            stm.setString(1,book.getIsbn());
+            stm.setString(2,book.getTitle());
+            stm.setString(3,book.getAuthor());
+            stm.setInt(4,book.getQty());
+            return stm.executeUpdate()==1;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
