@@ -26,8 +26,8 @@ public class IssueTM {
         this.date = date;
     }
 
-    public IssueTM(String memberId, Date date, Status status) {
-        this.memberId = memberId;
+    public IssueTM(int issueId, Date date, Status status) {
+        this.issueId = issueId;
         this.date = date;
         this.status = status;
     }
