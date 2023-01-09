@@ -3,25 +3,64 @@ package lk.ijse.gdse.view.tm;
 import java.sql.Date;
 
 public class IssueTM {
-    private String issueId;
+    private int issueId;
+    private String isbn;
+    private String memberId;
     private Date date;
     private Status status;
 
     public IssueTM() {
     }
 
-    public IssueTM(String issueId, Date date, Status status) {
+    public IssueTM(int issueId, String isbn, String memberId, Date date, Status status) {
         this.issueId = issueId;
+        this.isbn = isbn;
+        this.memberId = memberId;
         this.date = date;
         this.status = status;
     }
 
-    public String getIssueId() {
+    public IssueTM(String isbn, String memberId, Date date) {
+        this.isbn = isbn;
+        this.memberId = memberId;
+        this.date = date;
+    }
+
+    public IssueTM(String memberId, Date date, Status status) {
+        this.memberId = memberId;
+        this.date = date;
+        this.status = status;
+    }
+
+    public IssueTM(int issueId, String isbn, String memberId, Date date) {
+        this.issueId = issueId;
+        this.isbn = isbn;
+        this.memberId = memberId;
+        this.date = date;
+    }
+
+    public int getIssueId() {
         return issueId;
     }
 
-    public void setIssueId(String issueId) {
+    public void setIssueId(int issueId) {
         this.issueId = issueId;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public Date getDate() {
@@ -43,9 +82,10 @@ public class IssueTM {
     @Override
     public String toString() {
         return "IssueTM{" +
-                "issueId='" + issueId + '\'' +
+                "issueId=" + issueId +
+                ", isbn='" + isbn + '\'' +
+                ", memberId='" + memberId + '\'' +
                 ", date=" + date +
-                ", status=" + status +
                 '}';
     }
 }

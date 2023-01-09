@@ -130,7 +130,7 @@ public class ManageMemberModel {
             stm.setString(1,memberId);
             ResultSet rst = stm.executeQuery();
             while (rst.next()){
-                IssueTM issueTM = new IssueTM(rst.getString("issueId"), rst.getDate("issuedDate"), rst.getBoolean("returnStatus") ? Status.NOT_RETURNED : Status.RETURNED);
+                IssueTM issueTM = new IssueTM(String.valueOf(rst.getInt("issueId")), rst.getDate("issuedDate"), rst.getBoolean("returnStatus") ? Status.NOT_RETURNED : Status.RETURNED);
                 issueTMList.add(issueTM);
             }
             return issueTMList;

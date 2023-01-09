@@ -6,6 +6,7 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/view/tm/Status.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/SplashScreenController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/member/UpdateMemberFormController.java
+/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageIssueModel.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/ManageMembersFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/member/AddMemberFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/ManageIssuesFormController.java
@@ -15,7 +16,9 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/MenuFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/ManageBooksFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/db/DBConnection.java
+/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageBookModel.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/util/Route.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/book/AddBookFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/MainFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/member/ShowIssueListFormController.java
+/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageMemberModel.java
