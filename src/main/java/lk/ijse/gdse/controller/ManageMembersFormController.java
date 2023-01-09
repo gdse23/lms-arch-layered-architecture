@@ -104,7 +104,7 @@ public class ManageMembersFormController {
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         Parent load = fxmlLoader.load();
         AddMemberFormController AddMemberController = fxmlLoader.getController();
-        AddMemberController.init(tblMembers,this);
+        AddMemberController.init(tblMembers);
         Stage stage = new Stage();
         stage.setScene(new Scene(load));
         stage.initModality(Modality.APPLICATION_MODAL);

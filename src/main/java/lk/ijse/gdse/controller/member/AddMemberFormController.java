@@ -20,7 +20,7 @@ public class AddMemberFormController {
 
     public TableView<MemberTM> tblMembers;
 
-    public void init(TableView<MemberTM> tblMembers, ManageMembersFormController manageMembersFormController){
+    public void init(TableView<MemberTM> tblMembers){
         this.tblMembers=tblMembers;
     }
 
