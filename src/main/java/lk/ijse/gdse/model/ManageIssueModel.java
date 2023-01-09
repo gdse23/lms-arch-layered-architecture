@@ -13,8 +13,8 @@ public class ManageIssueModel {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("SELECT issue_id FROM issue WHERE issue_id=?");
-            ResultSet rst = stm.executeQuery();
             stm.setString(1,issueId);
+            ResultSet rst = stm.executeQuery();
             return rst.next();
         } catch (SQLException |ClassNotFoundException e) {
             throw new RuntimeException(e);

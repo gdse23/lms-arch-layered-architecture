@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.gdse.controller.ManageReturnsFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="593.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.controller.ManageReturnsFormController">
+   <children>
+      <JFXButton fx:id="btnBack" layoutX="21.0" layoutY="14.0" onAction="#btnBackOnAction" prefHeight="50.0" prefWidth="58.0" style="-fx-background-color: #f7a759;" text=" ">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/back_icon.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <TableView fx:id="tblReturns" layoutX="26.0" layoutY="100.0" prefHeight="475.0" prefWidth="1042.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="ISSUE ID" />
+            <TableColumn prefWidth="263.2000427246094" text="DATE" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TextField fx:id="txtIssueId" layoutX="242.0" layoutY="26.0" prefHeight="26.0" prefWidth="162.0" promptText="1" />
+      <Label layoutX="153.0" layoutY="30.0" text="Issue ID:" />
+      <JFXButton fx:id="btnReturn" layoutX="750.0" layoutY="13.0" onAction="#btnReturnOnAction" prefHeight="54.0" prefWidth="202.0" style="-fx-background-color: #5d7d56;" text="Return" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Serif Condensed Bold" size="13.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="46.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/issue_book.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
 </AnchorPane>
