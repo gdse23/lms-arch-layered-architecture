@@ -1,8 +1,9 @@
 package lk.ijse.gdse.model;
 
 import lk.ijse.gdse.db.DBConnection;
+import lk.ijse.gdse.to.Member;
+import lk.ijse.gdse.to.Return;
 import lk.ijse.gdse.view.tm.IssueTM;
-import lk.ijse.gdse.view.tm.MemberTM;
 import lk.ijse.gdse.view.tm.Status;
 
 import java.sql.Connection;
@@ -14,19 +15,19 @@ import java.util.List;
 
 public class ManageMemberModel {
 
-    public static List<MemberTM> getAllMembers() throws SQLException, ClassNotFoundException {
+    public static List<Member> getAllMembers() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Member");
         ResultSet rst = stm.executeQuery();
-        List<MemberTM> memberList =new ArrayList<>();
+        List<Member> memberList =new ArrayList<>();
         while (rst.next()){
-            MemberTM memberTM = new MemberTM(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
-            memberList.add(memberTM);
+            Member member = new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
+            memberList.add(member);
         }
         return memberList;
     }
 
-    public static List<MemberTM> searchMembers(String searchText){
+    public static List<Member> searchMembers(String searchText){
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("SELECT * FROM Member WHERE id LIKE ? OR  name LIKE ? OR address LIKE ? OR contact LIKE ?");
@@ -36,10 +37,10 @@ public class ManageMemberModel {
             stm.setString(3,searchText);
             stm.setString(4,searchText);
             ResultSet rst = stm.executeQuery();
-            List<MemberTM> memberList=new ArrayList<>();
+            List<Member> memberList=new ArrayList<>();
             while (rst.next()){
-                MemberTM memberTM = new MemberTM(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
-                memberList.add(memberTM);
+                Member member = new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
+                memberList.add(member);
             }
             return memberList;
         } catch (SQLException| ClassNotFoundException e) {
@@ -47,13 +48,13 @@ public class ManageMemberModel {
         }
     }
 
-    public static boolean addMember(MemberTM memberTM) throws SQLException, ClassNotFoundException {
+    public static boolean addMember(Member member) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement stm = connection.prepareStatement("INSERT INTO Member (id, name, address, contact) VALUES (?,?,?,?)");
-        stm.setString(1,memberTM.getId());
-        stm.setString(2,memberTM.getName());
-        stm.setString(3,memberTM.getAddress());
-        stm.setString(4,memberTM.getContact());
+        stm.setString(1,member.getId());
+        stm.setString(2,member.getName());
+        stm.setString(3,member.getAddress());
+        stm.setString(4,member.getContact());
         return stm.executeUpdate()==1;
     }
 
@@ -72,14 +73,14 @@ public class ManageMemberModel {
 
     }
 
-    public static boolean updateMember(MemberTM memberTM){
+    public static boolean updateMember(Member member){
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("UPDATE Member SET name=? ,address=? ,contact=? WHERE id=?");
-            stm.setString(1,memberTM.getName());
-            stm.setString(2,memberTM.getAddress());
-            stm.setString(3,memberTM.getContact());
-            stm.setString(4,memberTM.getId());
+            stm.setString(1,member.getName());
+            stm.setString(2,member.getAddress());
+            stm.setString(3,member.getContact());
+            stm.setString(4,member.getId());
 
             return stm.executeUpdate()==1;
 
@@ -89,12 +90,51 @@ public class ManageMemberModel {
         }
     }
 
-    public static boolean deleteMemberById(String memberId){
+    public static void deleteMemberById(String memberId){
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("DELETE  FROM Member WHERE id=?");
-            stm.setString(1,memberId);
-            return stm.executeUpdate()==1;
+
+            //let's do within the transaction context
+            connection.setAutoCommit(false);
+
+            try {
+                PreparedStatement stm = connection.prepareStatement("DELETE  FROM Member WHERE id=?");
+                PreparedStatement stm1 = connection.prepareStatement("SELECT r.issue_id,r.date FROM `Return` r left join issue i on i.issue_id = r.issue_id LEFT JOIN Member M on i.memberId = M.id WHERE M.id=?");
+                PreparedStatement stm2 = connection.prepareStatement("DELETE FROM `Return` WHERE issue_id=?");
+                PreparedStatement stm3 = connection.prepareStatement("SELECT issue_id FROM issue i LEFT JOIN Member M on i.memberId = M.id WHERE M.id=?");
+                PreparedStatement stm4 = connection.prepareStatement("DELETE FROM issue WHERE issue_id=?");
+
+                //deleting returns attached with the member
+                stm1.setString(1,memberId);
+                ResultSet rst = stm1.executeQuery();
+                List<Return> returnList=new ArrayList<>();
+                while (rst.next()){
+                    stm2.setInt(1,rst.getInt("issue_id"));
+                    if (stm2.executeUpdate()!=1) throw new  SQLException();
+                }
+                //deleting issues attached with the member
+                stm3.setString(1,memberId);
+                ResultSet rstIssue = stm3.executeQuery();
+                while (rstIssue.next()){
+                    stm4.setInt(1,rstIssue.getInt("issue_id"));
+                    if (stm4.executeUpdate()!=1) throw new  SQLException();
+                }
+
+                //deleting member from the member table
+                stm.setString(1,memberId);
+                if(stm.executeUpdate()!=1) throw new SQLException();
+
+                connection.commit();
+            }catch (Throwable t){
+                connection.rollback();
+                throw new RuntimeException(t);
+
+            }finally {
+                connection.setAutoCommit(true);
+            }
+
+
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

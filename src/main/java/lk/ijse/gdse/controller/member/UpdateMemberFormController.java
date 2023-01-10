@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.model.ManageMemberModel;
+import lk.ijse.gdse.to.Member;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.util.Optional;
@@ -51,12 +52,12 @@ public class UpdateMemberFormController {
         }
 
         //upto now all fields are validated
-        MemberTM updatedMemberTM = new MemberTM(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
-        if(ManageMemberModel.updateMember(updatedMemberTM)){
+        Member updatedMember = new Member(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
+        if(ManageMemberModel.updateMember(updatedMember)){
             int selectedIndex = manageMembersController.tblMembers.getSelectionModel()
                     .getSelectedIndex();
             manageMembersController.tblMembers.getItems()
-                    .add(selectedIndex,updatedMemberTM);
+                    .add(selectedIndex,new MemberTM(updatedMember.getId(), updatedMember.getName(), updatedMember.getAddress(), updatedMember.getContact()));
             manageMembersController.tblMembers.getItems().remove(selectedIndex+1);
             new Alert(Alert.AlertType.INFORMATION,"Member has been successfully updated!").show();
         }else {
@@ -73,12 +74,11 @@ public class UpdateMemberFormController {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
-            if(ManageMemberModel.deleteMemberById(memberTM.getId())) {
-                new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
-                manageMembersController.tblMembers.getItems().
-                        removeAll(manageMembersController.tblMembers.getSelectionModel().getSelectedItem());
-                btnDelete.getScene().getWindow().hide();
-            }else new Alert(Alert.AlertType.ERROR,"Failed to delete the member ,try again !").show();
+            ManageMemberModel.deleteMemberById(memberTM.getId());
+            new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
+            manageMembersController.tblMembers.getItems().
+                    removeAll(manageMembersController.tblMembers.getSelectionModel().getSelectedItem());
+            btnDelete.getScene().getWindow().hide();
         }
     }
 }

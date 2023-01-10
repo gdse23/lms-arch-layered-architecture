@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageBooksFormController;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.model.ManageBookModel;
+import lk.ijse.gdse.to.Book;
 import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -62,11 +63,11 @@ public class AddBookFormController {
             txtIsbn.requestFocus();
             return;
         }
-        BookTM book=new BookTM(txtIsbn.getText(),txtTitle.getText(),txtAuthor.getText(),Integer.parseInt(txtQty.getText()));
+        Book book=new Book(txtIsbn.getText(),txtTitle.getText(),txtAuthor.getText(),Integer.parseInt(txtQty.getText()));
 
         if(ManageBookModel.addBook(book)){
             new Alert(Alert.AlertType.CONFIRMATION,"Successfully Registered !").show();
-            tblBooks.getItems().add(book);
+            tblBooks.getItems().add(new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty()));
             txtIsbn.clear();
             txtTitle.clear();
             txtAuthor.clear();

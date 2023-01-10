@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.model.ManageBookModel;
 import lk.ijse.gdse.model.ManageIssueModel;
 import lk.ijse.gdse.model.ManageMemberModel;
+import lk.ijse.gdse.to.Issue;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.IssueTM;
@@ -20,7 +21,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ManageIssuesFormController {
     public JFXButton btnBack;
@@ -36,9 +39,8 @@ public class ManageIssuesFormController {
         tblIssues.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tblIssues.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("memberId"));
         tblIssues.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("date"));
-
-        tblIssues.getItems().addAll(FXCollections.observableArrayList(ManageIssueModel.findAllIssues()));
-
+        List<IssueTM> issueTMList = ManageIssueModel.findAllIssues().stream().map(issue -> new IssueTM(issue.getIssueId(), issue.getIsbn(), issue.getMemberId(), issue.getDate())).collect(Collectors.toList());
+        tblIssues.getItems().addAll(FXCollections.observableArrayList(issueTMList));
         tblIssues.getSelectionModel().selectedItemProperty().addListener((observableValue, prev, curr)->{
 
             btnUpdate.setDisable(curr==null);
@@ -51,7 +53,6 @@ public class ManageIssuesFormController {
                 txtIsbn.setText(curr.getIsbn());
             }
         });
-
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
@@ -69,12 +70,12 @@ public class ManageIssuesFormController {
             alert.get().show();
             return;
         }
-        IssueTM savedIssue = ManageIssueModel.saveIssue(new IssueTM(txtIsbn.getText(), txtMemberId.getText(), Date.valueOf(LocalDate.now())));
+        Issue savedIssue = ManageIssueModel.saveIssue(new Issue(txtIsbn.getText(), txtMemberId.getText(), Date.valueOf(LocalDate.now())));
         new Alert(Alert.AlertType.INFORMATION,"Successfully issued !").show();
         txtIsbn.clear();
         txtMemberId.clear();
         txtMemberId.requestFocus();
-        tblIssues.getItems().addAll(savedIssue);
+        tblIssues.getItems().addAll(new IssueTM(savedIssue.getIssueId(), savedIssue.getIsbn(), savedIssue.getMemberId(),savedIssue.getDate()));
 
     }
 
@@ -88,7 +89,7 @@ public class ManageIssuesFormController {
         int selectedIndex = tblIssues.getSelectionModel().getSelectedIndex();
         selectedItem.setIsbn(txtIsbn.getText());
         selectedItem.setMemberId(txtMemberId.getText());
-        ManageIssueModel.updateIssue(selectedItem);
+        ManageIssueModel.updateIssue(new Issue(selectedItem.getIssueId(),selectedItem.getIsbn(), selectedItem.getMemberId(), selectedItem.getDate()));
         txtIsbn.clear();
         txtMemberId.clear();
         tblIssues.getSelectionModel().clearSelection();

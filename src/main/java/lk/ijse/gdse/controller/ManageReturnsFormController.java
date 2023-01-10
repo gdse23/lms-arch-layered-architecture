@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.model.ManageIssueModel;
 import lk.ijse.gdse.model.ManageReturnModel;
+import lk.ijse.gdse.to.Return;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.ReturnTM;
@@ -16,6 +17,8 @@ import lk.ijse.gdse.view.tm.ReturnTM;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManageReturnsFormController {
     public JFXButton btnBack;
@@ -26,8 +29,8 @@ public class ManageReturnsFormController {
     public void initialize(){
         tblReturns.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("issueId"));
         tblReturns.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("date"));
-
-        tblReturns.getItems().addAll(FXCollections.observableArrayList(ManageReturnModel.getAllReturns()));
+        List<ReturnTM> returnTMList = ManageReturnModel.getAllReturns().stream().map(aReturn -> new ReturnTM(aReturn.getIssueId(), aReturn.getDate())).collect(Collectors.toList());
+        tblReturns.getItems().addAll(FXCollections.observableArrayList(returnTMList));
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
@@ -55,7 +58,7 @@ public class ManageReturnsFormController {
 
         //upto now all validated
         // let's save  to the database
-        ManageReturnModel.saveReturn(new ReturnTM(Integer.parseInt(txtIssueId.getText()), Date.valueOf(LocalDate.now())));
+        ManageReturnModel.saveReturn(new Return(Integer.parseInt(txtIssueId.getText()), Date.valueOf(LocalDate.now())));
         new Alert(Alert.AlertType.INFORMATION,"Book return has been successfully completed!").show();
         txtIssueId.clear();
         txtIssueId.requestFocus();

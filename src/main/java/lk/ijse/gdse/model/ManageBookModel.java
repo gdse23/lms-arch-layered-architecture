@@ -1,7 +1,7 @@
 package lk.ijse.gdse.model;
 
 import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.view.tm.BookTM;
+import lk.ijse.gdse.to.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageBookModel {
-    public static  List<BookTM> searchBooks(String searchText) {
+    public static  List<Book> searchBooks(String searchText) {
 
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
@@ -21,9 +21,9 @@ public class ManageBookModel {
             stm.setString(2,searchText);
             stm.setString(3,searchText);
             ResultSet rst = stm.executeQuery();
-            List<BookTM> bookList=new ArrayList<>();
+            List<Book> bookList=new ArrayList<>();
             while (rst.next()){
-                BookTM book = new BookTM(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
+                Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
                 bookList.add(book);
             }
             return bookList;
@@ -32,14 +32,14 @@ public class ManageBookModel {
         }
     }
 
-    public static  List<BookTM> getAllBooks() {
+    public static  List<Book> getAllBooks() {
         try {
             Connection connection  = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book");
             ResultSet rst = stm.executeQuery();
-            List<BookTM> bookList =new ArrayList<>();
+            List<Book> bookList =new ArrayList<>();
             while (rst.next()){
-                BookTM book = new BookTM(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
+                Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
                 bookList.add(book);
             }
             return bookList;
@@ -61,7 +61,7 @@ public class ManageBookModel {
         }
     }
 
-    public static boolean addBook(BookTM book) {
+    public static boolean addBook(Book book) {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
@@ -76,7 +76,7 @@ public class ManageBookModel {
 
     }
 
-    public static boolean updateBook(BookTM updatedBook) {
+    public static boolean updateBook(Book updatedBook) {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");

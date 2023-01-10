@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.model.ManageMemberModel;
+import lk.ijse.gdse.to.Member;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.sql.SQLException;
@@ -60,7 +61,7 @@ public class AddMemberFormController {
         }
         MemberTM member=new MemberTM(txtID.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText());
 
-        if(ManageMemberModel.addMember(member)){
+        if(ManageMemberModel.addMember(new Member(member.getId(),member.getName(),member.getAddress(),member.getContact()))){
             new Alert(Alert.AlertType.CONFIRMATION,"Successfully Registered !").show();
             tblMembers.getItems().add(member);
             txtID.clear();

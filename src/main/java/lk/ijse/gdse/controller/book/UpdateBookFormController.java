@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageBooksFormController;
 import lk.ijse.gdse.model.ManageBookModel;
+import lk.ijse.gdse.to.Book;
 import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -67,12 +68,12 @@ public class UpdateBookFormController {
 
         //Upto now all fields are validated
 
-        BookTM updatedBook = new BookTM(bookTM.getIsbn(), txtTitle.getText(), txtAuthor.getText(), Integer.parseInt(txtQty.getText()));
+        Book updatedBook = new Book(bookTM.getIsbn(), txtTitle.getText(), txtAuthor.getText(), Integer.parseInt(txtQty.getText()));
         if(ManageBookModel.updateBook(updatedBook)){
             int selectedIndex = manageBooksController.tblBooks.getSelectionModel()
                     .getSelectedIndex();
             manageBooksController.tblBooks.getItems()
-                    .add(selectedIndex,updatedBook);
+                    .add(selectedIndex,new BookTM(updatedBook.getIsbn(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getQty()));
             manageBooksController.tblBooks.getItems().remove(selectedIndex+1);
             new Alert(Alert.AlertType.INFORMATION,"Book has been successfully updated!").show();
         }else {

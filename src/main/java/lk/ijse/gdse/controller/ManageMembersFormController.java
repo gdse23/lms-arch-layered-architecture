@@ -30,6 +30,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ManageMembersFormController {
@@ -48,12 +49,15 @@ public class ManageMembersFormController {
         tblMembers.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
         tblMembers.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contact"));
 
-        tblMembers.setItems(FXCollections.observableArrayList(ManageMemberModel.getAllMembers()));
+        List<MemberTM> memberTMList = ManageMemberModel.getAllMembers().stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
+
+        tblMembers.setItems(FXCollections.observableArrayList(memberTMList));
 
         txtSearchMember.textProperty().addListener((observableValue, pre, curr) ->{
             if (!Objects.equals(pre, curr)){
                 tblMembers.getItems().clear();
-                tblMembers.setItems(FXCollections.observableArrayList(ManageMemberModel.searchMembers(curr)));
+                List<MemberTM> searchResult = ManageMemberModel.searchMembers(curr).stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
+                tblMembers.setItems(FXCollections.observableArrayList(searchResult));
             }
 
         } );

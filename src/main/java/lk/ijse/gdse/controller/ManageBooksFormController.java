@@ -32,6 +32,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ManageBooksFormController {
     public JFXButton btnBack;
@@ -46,13 +47,14 @@ public class ManageBooksFormController {
         tblBooks.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("title"));
         tblBooks.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("author"));
         tblBooks.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("qty"));
-
-        tblBooks.setItems(FXCollections.observableArrayList(ManageBookModel.getAllBooks()));
+        List<BookTM> bookTMList = ManageBookModel.getAllBooks().stream().map(book -> new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty())).collect(Collectors.toList());
+        tblBooks.setItems(FXCollections.observableArrayList(bookTMList));
 
         txtSearch.textProperty().addListener((observableValue, pre, curr) ->{
             if (!Objects.equals(pre, curr)){
                 tblBooks.getItems().clear();
-                tblBooks.setItems(FXCollections.observableArrayList(ManageBookModel.searchBooks(curr)));
+                List<BookTM> bookList = ManageBookModel.searchBooks(curr).stream().map(book -> new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty())).collect(Collectors.toList());
+                tblBooks.setItems(FXCollections.observableArrayList(bookList));
             }
 
         } );

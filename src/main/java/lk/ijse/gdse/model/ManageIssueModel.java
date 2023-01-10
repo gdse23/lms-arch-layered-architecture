@@ -1,11 +1,10 @@
 package lk.ijse.gdse.model;
 
 import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.view.tm.IssueTM;
+import lk.ijse.gdse.to.Issue;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ManageIssueModel {
@@ -22,33 +21,33 @@ public class ManageIssueModel {
 
     }
 
-    public static IssueTM saveIssue(IssueTM issueTM) {
+    public static Issue saveIssue(Issue issue) {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("INSERT INTO issue (isbn, memberId, date) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            stm.setString(1,issueTM.getIsbn());
-            stm.setString(2,issueTM.getMemberId());
-            stm.setDate(3,issueTM.getDate());
+            stm.setString(1,issue.getIsbn());
+            stm.setString(2,issue.getMemberId());
+            stm.setDate(3,issue.getDate());
             stm.executeUpdate();
             ResultSet keys = stm.getGeneratedKeys();
             keys.next();
             int issueId = keys.getInt(1);
-            issueTM.setIssueId(issueId);
-            return issueTM;
+            issue.setIssueId(issueId);
+            return issue;
         } catch (SQLException |ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static List<IssueTM> findAllIssues() {
+    public static List<Issue> findAllIssues() {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("SELECT * FROM issue");
             ResultSet rst = stm.executeQuery();
-            List<IssueTM> issueList = new ArrayList<>();
+            List<Issue> issueList = new ArrayList<>();
             while (rst.next()){
-                IssueTM issueTM = new IssueTM(rst.getInt("issue_id"), rst.getString("isbn"), rst.getString("memberId"), rst.getDate("date"));
-                issueList.add(issueTM);
+                Issue issue = new Issue(rst.getInt("issue_id"), rst.getString("isbn"), rst.getString("memberId"), rst.getDate("date"));
+                issueList.add(issue);
             }
             return issueList;
 
@@ -57,13 +56,13 @@ public class ManageIssueModel {
         }
     }
 
-    public static void updateIssue(IssueTM issueTM) {
+    public static void updateIssue(Issue issue) {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("UPDATE issue SET isbn=? ,memberId=? where issue_id=?");
-            stm.setString(1,issueTM.getIsbn());
-            stm.setString(2,issueTM.getMemberId());
-            stm.setInt(3,issueTM.getIssueId());
+            stm.setString(1,issue.getIsbn());
+            stm.setString(2,issue.getMemberId());
+            stm.setInt(3,issue.getIssueId());
             stm.executeUpdate();
         }catch (SQLException | ClassNotFoundException e){
             throw new RuntimeException(e);
