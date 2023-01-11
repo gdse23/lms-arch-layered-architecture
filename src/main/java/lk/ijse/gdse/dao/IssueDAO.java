@@ -1,4 +1,4 @@
 package lk.ijse.gdse.dao;
 
-public class IssueDAO {
+public interface IssueDAO {
 }
