@@ -2,7 +2,7 @@ package lk.ijse.gdse.entity;
 
 import java.io.Serializable;
 
-public class Book implements Serializable {
+public class Book implements SuperEntity {
     private String isbn;
     private String title;
     private String author;

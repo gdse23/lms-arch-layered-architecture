@@ -2,7 +2,7 @@ package lk.ijse.gdse.entity;
 
 import java.io.Serializable;
 
-public class Member implements Serializable {
+public class Member implements SuperEntity {
     private String id;
     private String name;
     private String address;

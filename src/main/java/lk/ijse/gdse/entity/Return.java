@@ -3,7 +3,7 @@ package lk.ijse.gdse.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Return implements Serializable {
+public class Return implements SuperEntity {
 
     int IssueId;
     Date date;

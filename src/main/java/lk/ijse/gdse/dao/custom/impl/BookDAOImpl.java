@@ -1,6 +1,6 @@
-package lk.ijse.gdse.dao.impl;
+package lk.ijse.gdse.dao.custom.impl;
 
-import lk.ijse.gdse.dao.BookDAO;
+import lk.ijse.gdse.dao.custom.BookDAO;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.entity.Book;
 
@@ -20,7 +20,7 @@ public class BookDAOImpl implements BookDAO {
         this.connection = DBConnection.getDbConnection().getConnection();
     }
     @Override
-    public Book saveBook(Book book) throws SQLException{
+    public Book save(Book book) throws SQLException{
         PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
         stm.setString(1,book.getIsbn());
         stm.setString(2,book.getTitle());
@@ -30,7 +30,7 @@ public class BookDAOImpl implements BookDAO {
         return book;
     }
     @Override
-    public Book updateBook(Book book) throws SQLException {
+    public Book update(Book book) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");
         stm.setString(1,book.getTitle());
         stm.setString(2,book.getAuthor());
@@ -42,7 +42,7 @@ public class BookDAOImpl implements BookDAO {
 
     }
     @Override
-    public void deleteByIsbn(String isbn) throws SQLException {
+    public void deleteByPk(String isbn) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("DELETE FROM Book WHERE isbn=?");
         stm.setString(1,isbn);
         if(stm.executeUpdate()!=1) throw new RuntimeException("Failed to delete the book");
@@ -58,6 +58,11 @@ public class BookDAOImpl implements BookDAO {
         }
         return bookList;
     }
+
+    @Override
+    public Book findByPk(String pk) throws SQLException {
+        return null;
+    }
     @Override
     public long count() throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT COUNT(isbn) AS count FROM Book;");
@@ -66,7 +71,7 @@ public class BookDAOImpl implements BookDAO {
         return rst.getInt(1);
     }
     @Override
-    public boolean existByIsbn(String isbn) throws SQLException {
+    public boolean existByPk(String isbn) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
         ResultSet rst = stm.executeQuery();
         return rst.next();
