@@ -19,7 +19,7 @@ public class BookDAOImpl implements BookDAO {
 
         this.connection = DBConnection.getDbConnection().getConnection();
     }
-
+    @Override
     public Book saveBook(Book book) throws SQLException{
         PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
         stm.setString(1,book.getIsbn());
@@ -29,7 +29,7 @@ public class BookDAOImpl implements BookDAO {
         if (stm.executeUpdate()!=1) throw new RuntimeException("Failed to save the book");
         return book;
     }
-
+    @Override
     public Book updateBook(Book book) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");
         stm.setString(1,book.getTitle());
@@ -41,13 +41,13 @@ public class BookDAOImpl implements BookDAO {
         return book;
 
     }
-
+    @Override
     public void deleteByIsbn(String isbn) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("DELETE FROM Book WHERE isbn=?");
         stm.setString(1,isbn);
         if(stm.executeUpdate()!=1) throw new RuntimeException("Failed to delete the book");
     }
-
+    @Override
     public List<Book> findAll() throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book");
         ResultSet rst = stm.executeQuery();
@@ -58,20 +58,20 @@ public class BookDAOImpl implements BookDAO {
         }
         return bookList;
     }
-
+    @Override
     public long count() throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT COUNT(isbn) AS count FROM Book;");
         ResultSet rst = stm.executeQuery();
         rst.next();
         return rst.getInt(1);
     }
-
+    @Override
     public boolean existByIsbn(String isbn) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
         ResultSet rst = stm.executeQuery();
         return rst.next();
     }
-
+    @Override
     public List<Book> searchByText(String text) throws SQLException {
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ");
         text="%"+text+"%";
