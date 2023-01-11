@@ -18,6 +18,7 @@ import lk.ijse.gdse.controller.member.AddMemberFormController;
 import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.model.ManageBookModel;
+import lk.ijse.gdse.to.Book;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.BookTM;
@@ -47,7 +48,9 @@ public class ManageBooksFormController {
         tblBooks.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("title"));
         tblBooks.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("author"));
         tblBooks.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("qty"));
-        List<BookTM> bookTMList = ManageBookModel.getAllBooks().stream().map(book -> new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty())).collect(Collectors.toList());
+
+        List<BookTM> bookTMList = ManageBookModel.getAllBooks().stream().map(b -> new BookTM(b.getIsbn(), b.getTitle(), b.getAuthor(), b.getQty())).collect(Collectors.toList());
+
         tblBooks.setItems(FXCollections.observableArrayList(bookTMList));
 
         txtSearch.textProperty().addListener((observableValue, pre, curr) ->{
