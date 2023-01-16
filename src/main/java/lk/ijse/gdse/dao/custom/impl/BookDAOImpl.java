@@ -62,7 +62,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public long count() throws SQLException, ClassNotFoundException {
 
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(isbn) AS count FROM BookDTO");
+        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(isbn) AS count FROM Book");
         rst.next();
         return rst.getInt(1);
     }

@@ -40,3 +40,6 @@ SELECT m.id AS Member_Id,
 
 /*Join Query to find all issued items for a given member ID*/
 SELECT M.id AS memberId,i.issue_id AS issueId,i.date AS issedDate,(R.date IS NULL ) AS returnStatus FROM issue i LEFT JOIN `Return` R on i.issue_id = R.issue_id LEFT JOIN  Member M on i.memberId = M.id WHERE M.id=?;
+
+
+SELECT (COUNT(i.issue_id)-COUNT(R.date)) as OrderedBooksCount FROM Member m LEFT JOIN issue i on m.id = i.memberId LEFT JOIN `Return` R on i.issue_id = R.issue_id WHERE m.id=? GROUP BY m.id;
