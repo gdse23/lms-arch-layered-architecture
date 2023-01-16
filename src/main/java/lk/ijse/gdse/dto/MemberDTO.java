@@ -1,17 +1,15 @@
-package lk.ijse.gdse.entity;
+package lk.ijse.gdse.dto;
 
-import java.io.Serializable;
-
-public class Member implements SuperEntity {
+public class MemberDTO {
     private String id;
     private String name;
     private String address;
     private String contact;
 
-    public Member() {
+    public MemberDTO() {
     }
 
-    public Member(String id, String name, String address, String contact) {
+    public MemberDTO(String id, String name, String address, String contact) {
         this.id = id;
         this.name = name;
         this.address = address;

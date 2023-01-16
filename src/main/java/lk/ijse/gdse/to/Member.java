@@ -50,7 +50,7 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
+        return "MemberDTO{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +

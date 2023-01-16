@@ -59,15 +59,15 @@ public class UpdateMemberFormController {
             manageMembersController.tblMembers.getItems()
                     .add(selectedIndex,new MemberTM(updatedMember.getId(), updatedMember.getName(), updatedMember.getAddress(), updatedMember.getContact()));
             manageMembersController.tblMembers.getItems().remove(selectedIndex+1);
-            new Alert(Alert.AlertType.INFORMATION,"Member has been successfully updated!").show();
+            new Alert(Alert.AlertType.INFORMATION,"MemberDTO has been successfully updated!").show();
         }else {
-            new Alert(Alert.AlertType.ERROR,"Failed to update the Member,try again!").show();
+            new Alert(Alert.AlertType.ERROR,"Failed to update the MemberDTO,try again!").show();
         }
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         if (ManageMemberModel.getIssuedBooksCountByMemberId(memberTM.getId())>0){
-            new Alert(Alert.AlertType.WARNING,"Member already borrowed some books, Return items first and try again!").show();
+            new Alert(Alert.AlertType.WARNING,"MemberDTO already borrowed some books, ReturnDTO items first and try again!").show();
             txtContact.getScene().getWindow().hide();
             return;
         }
@@ -75,7 +75,7 @@ public class UpdateMemberFormController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
             ManageMemberModel.deleteMemberById(memberTM.getId());
-            new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
+            new Alert(Alert.AlertType.INFORMATION,"MemberDTO delete successful").show();
             manageMembersController.tblMembers.getItems().
                     removeAll(manageMembersController.tblMembers.getSelectionModel().getSelectedItem());
             btnDelete.getScene().getWindow().hide();

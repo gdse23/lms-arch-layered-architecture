@@ -29,7 +29,7 @@ public class AddMemberFormController {
     public void btnRegisterOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         //Data validation
         if (txtID.getText().isBlank() || !txtID.getText().matches("M\\d{3}")) {
-            new Alert(Alert.AlertType.ERROR,"Member ID empty or invalid").show();
+            new Alert(Alert.AlertType.ERROR,"MemberDTO ID empty or invalid").show();
             txtID.selectAll();
             txtID.requestFocus();
             return;
@@ -54,7 +54,7 @@ public class AddMemberFormController {
         //upto now all fields are validated
         //let's do some business validations here...
         else if (ManageMemberModel.existMemberById(txtID.getText())) {
-            new Alert(Alert.AlertType.ERROR,"Member Already Exists").show();
+            new Alert(Alert.AlertType.ERROR,"MemberDTO Already Exists").show();
             txtID.selectAll();
             txtID.requestFocus();
             return;

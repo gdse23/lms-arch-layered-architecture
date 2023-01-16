@@ -32,7 +32,7 @@ public class Return {
 
     @Override
     public String toString() {
-        return "Return{" +
+        return "ReturnDTO{" +
                 "issueId=" + issueId +
                 ", date=" + date +
                 '}';

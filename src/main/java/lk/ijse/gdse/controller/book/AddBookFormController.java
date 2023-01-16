@@ -58,7 +58,7 @@ public class AddBookFormController {
         //upto now all fields are validated
         //let's do some business validations here...
         else if (ManageBookModel.existBookByIsbn(txtIsbn.getText())) {
-            new Alert(Alert.AlertType.ERROR,"Member Already Exists").show();
+            new Alert(Alert.AlertType.ERROR,"MemberDTO Already Exists").show();
             txtIsbn.selectAll();
             txtIsbn.requestFocus();
             return;

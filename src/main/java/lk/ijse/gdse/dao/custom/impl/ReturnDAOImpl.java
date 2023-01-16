@@ -18,7 +18,7 @@ public class ReturnDAOImpl implements ReturnDAO {
 
     @Override
     public Return save(Return returnEntity) throws SQLException, ClassNotFoundException {
-        if(DBUtil.executeUpdate("INSERT INTO `Return` (issue_id, date) VALUES (?,?)",
+        if(DBUtil.executeUpdate("INSERT INTO `ReturnDTO` (issue_id, date) VALUES (?,?)",
                 returnEntity.getIssueId(),returnEntity.getDate())){
             return returnEntity;
         }
@@ -27,7 +27,7 @@ public class ReturnDAOImpl implements ReturnDAO {
 
     @Override
     public Return update(Return entity) throws SQLException, ClassNotFoundException {
-        if( DBUtil.executeUpdate("UPDATE `Return` SET date=? WHERE issue_id=?", entity.getDate(), entity.getIssueId())){
+        if( DBUtil.executeUpdate("UPDATE `ReturnDTO` SET date=? WHERE issue_id=?", entity.getDate(), entity.getIssueId())){
             return entity;
         }
 
@@ -36,7 +36,7 @@ public class ReturnDAOImpl implements ReturnDAO {
 
     @Override
     public void deleteByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        if(!DBUtil.executeUpdate("DELETE FROM `Return` WHERE issue_id =?",issueId)){
+        if(!DBUtil.executeUpdate("DELETE FROM `ReturnDTO` WHERE issue_id =?",issueId)){
             throw new RuntimeException("Failed to delete the return record!");
         }
     }
@@ -55,7 +55,7 @@ public class ReturnDAOImpl implements ReturnDAO {
     @Override
     public Optional<Return> findByPk(Integer issueId) throws SQLException, ClassNotFoundException {
 
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `Return` WHERE issue_id =?", issueId);
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `ReturnDTO` WHERE issue_id =?", issueId);
         if (rst.next()){
             return Optional.of(new Return(rst.getInt("issue_id"),rst.getDate("date")));
         }
@@ -64,13 +64,13 @@ public class ReturnDAOImpl implements ReturnDAO {
 
     @Override
     public boolean existByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `Return` WHERE issue_id= ?", issueId);
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `ReturnDTO` WHERE issue_id= ?", issueId);
         return rst.next();
     }
 
     @Override
     public long count() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM `Return`");
+        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM `ReturnDTO`");
         rst.next();
         return rst.getInt(1);
     }

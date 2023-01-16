@@ -38,7 +38,7 @@ public class UpdateBookFormController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
             if(ManageBookModel.deleteBookByIsbn(bookTM.getIsbn())) {
-                new Alert(Alert.AlertType.INFORMATION,"Member delete successful").show();
+                new Alert(Alert.AlertType.INFORMATION,"MemberDTO delete successful").show();
                 manageBooksController.tblBooks.getItems().
                         removeAll(manageBooksController.tblBooks.getSelectionModel().getSelectedItem());
                 btnDelete.getScene().getWindow().hide();
@@ -50,7 +50,7 @@ public class UpdateBookFormController {
         //Data Validations
 
         if (txtTitle.getText().isBlank() || !txtTitle.getText().matches("^[A-Za-z0-9- ]+$")){
-            new Alert(Alert.AlertType.ERROR,"Invalid Book title !").show();
+            new Alert(Alert.AlertType.ERROR,"Invalid BookDTO title !").show();
             txtTitle.selectAll();
             txtTitle.requestFocus();
             return;
@@ -75,9 +75,9 @@ public class UpdateBookFormController {
             manageBooksController.tblBooks.getItems()
                     .add(selectedIndex,new BookTM(updatedBook.getIsbn(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getQty()));
             manageBooksController.tblBooks.getItems().remove(selectedIndex+1);
-            new Alert(Alert.AlertType.INFORMATION,"Book has been successfully updated!").show();
+            new Alert(Alert.AlertType.INFORMATION,"BookDTO has been successfully updated!").show();
         }else {
-            new Alert(Alert.AlertType.ERROR,"Failed to update the Book details,try again!").show();
+            new Alert(Alert.AlertType.ERROR,"Failed to update the BookDTO details,try again!").show();
         }
     }
 }

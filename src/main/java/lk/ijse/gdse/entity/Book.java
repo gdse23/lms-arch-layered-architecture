@@ -53,7 +53,7 @@ public class Book implements SuperEntity {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookDTO{" +
                 "isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +

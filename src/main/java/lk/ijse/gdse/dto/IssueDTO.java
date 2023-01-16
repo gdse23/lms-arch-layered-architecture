@@ -1,37 +1,38 @@
-package lk.ijse.gdse.to;
+package lk.ijse.gdse.dto;
+
 import java.sql.Date;
 
-public class Issue {
+public class IssueDTO {
     private int issueId;
     private String isbn;
     private String memberId;
     private Date date;
     private Status status;
 
-    public Issue() {
+    public IssueDTO() {
     }
 
-    public Issue(String isbn, String memberId, Date date) {
+    public IssueDTO(String isbn, String memberId, Date date) {
         this.isbn = isbn;
         this.memberId = memberId;
         this.date = date;
     }
 
-    public Issue(int issueId, String isbn, String memberId, Date date) {
+    public IssueDTO(int issueId, String isbn, String memberId, Date date) {
         this.issueId = issueId;
         this.isbn = isbn;
         this.memberId = memberId;
         this.date = date;
     }
 
-    public Issue(String isbn, String memberId, Date date, Status status) {
+    public IssueDTO(String isbn, String memberId, Date date, Status status) {
         this.isbn = isbn;
         this.memberId = memberId;
         this.date = date;
         this.status = status;
     }
 
-    public Issue(int issueId, String isbn, String memberId, Date date, Status status) {
+    public IssueDTO(int issueId, String isbn, String memberId, Date date, Status status) {
         this.issueId = issueId;
         this.isbn = isbn;
         this.memberId = memberId;

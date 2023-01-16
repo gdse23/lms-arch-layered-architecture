@@ -1,15 +1,15 @@
-package lk.ijse.gdse.to;
+package lk.ijse.gdse.dto;
 
-public class Book {
+public class BookDTO {
     private String isbn;
     private String title;
     private String author;
     private int qty;
 
-    public Book() {
+    public BookDTO() {
     }
 
-    public Book(String isbn, String title, String author, int qty) {
+    public BookDTO(String isbn, String title, String author, int qty) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;

@@ -83,7 +83,7 @@ public class ManageBooksFormController {
         Stage stage = new Stage();
         stage.setScene(new Scene(load));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("New Book Registration Form");
+        stage.setTitle("New BookDTO Registration Form");
         stage.centerOnScreen();
         stage.show();
     }
@@ -95,7 +95,7 @@ public class ManageBooksFormController {
         UpdateBookFormController controller = fxmlLoader.getController();
         controller.init(tblBooks.getSelectionModel().getSelectedItem(),this);
         Stage stage = new Stage();
-        stage.setTitle("Update/Delete Book details");
+        stage.setTitle("Update/Delete BookDTO details");
         stage.setScene(new Scene(load));
         stage.centerOnScreen();
         stage.initModality(Modality.APPLICATION_MODAL);

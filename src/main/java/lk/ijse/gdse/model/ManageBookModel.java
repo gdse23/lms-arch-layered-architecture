@@ -36,11 +36,11 @@ public class ManageBookModel {
     public static  List<Book> getAllBooks() {
         try {
 //            Connection connection  = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book");
+//            PreparedStatement stm = connection.prepareStatement("SELECT * FROM BookDTO");
 //            ResultSet rst = stm.executeQuery();
             List<Book> bookList =new ArrayList<>();
 
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book");
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO");
             while (rst.next()){
                 Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
                 bookList.add(book);
@@ -67,12 +67,12 @@ public class ManageBookModel {
     public static boolean addBook(Book book) {
         try {
 //            Connection connection = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
+//            PreparedStatement stm = connection.prepareStatement("INSERT INTO BookDTO (isbn, title, author,qty) VALUES (?,?,?,?)");
 //            stm.setString(1,book.getIsbn());
 //            stm.setString(2,book.getTitle());
 //            stm.setString(3,book.getAuthor());
 
-            return DBUtil.executeUpdate("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty());
+            return DBUtil.executeUpdate("INSERT INTO BookDTO (isbn, title, author,qty) VALUES (?,?,?,?)", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty());
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

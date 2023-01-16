@@ -107,13 +107,13 @@ public class ManageIssuesFormController {
         }
 
         else if (memberId.isBlank()|| !memberId.matches("^M\\d{3}$")) {
-            alert.setHeaderText("Invalid Member Id");
+            alert.setHeaderText("Invalid MemberDTO Id");
             return Optional.of(alert);
         }else if (!ManageMemberModel.existMemberById(txtMemberId.getText())) {
-            alert.setHeaderText("Member does not exists!");
+            alert.setHeaderText("MemberDTO does not exists!");
             return Optional.of(alert);
         } else if (!ManageBookModel.existBookByIsbn(txtIsbn.getText())) {
-            alert.setHeaderText("Book does not found!");
+            alert.setHeaderText("BookDTO does not found!");
             return Optional.of(alert);
         }
 

@@ -39,12 +39,12 @@ public class ManageReturnsFormController {
 
     public void btnReturnOnAction(ActionEvent actionEvent) {
         if (txtIssueId.getText().isBlank() || !txtIssueId.getText().matches("^\\d+$")){
-            new Alert(Alert.AlertType.WARNING,"Invalid Issue ID!").show();
+            new Alert(Alert.AlertType.WARNING,"Invalid IssueDTO ID!").show();
             txtIssueId.selectAll();
             txtIssueId.requestFocus();
             return;
         }else if (!ManageIssueModel.existById(txtIssueId.getText())){
-            new Alert(Alert.AlertType.WARNING,"Invalid Issue ID").show();
+            new Alert(Alert.AlertType.WARNING,"Invalid IssueDTO ID").show();
             txtIssueId.selectAll();
             txtIssueId.requestFocus();
             return;
@@ -59,7 +59,7 @@ public class ManageReturnsFormController {
         //upto now all validated
         // let's save  to the database
         ManageReturnModel.saveReturn(new Return(Integer.parseInt(txtIssueId.getText()), Date.valueOf(LocalDate.now())));
-        new Alert(Alert.AlertType.INFORMATION,"Book return has been successfully completed!").show();
+        new Alert(Alert.AlertType.INFORMATION,"BookDTO return has been successfully completed!").show();
         txtIssueId.clear();
         txtIssueId.requestFocus();
 

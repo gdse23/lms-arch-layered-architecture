@@ -53,7 +53,7 @@ public class Issue implements SuperEntity {
 
     @Override
     public String toString() {
-        return "Issue{" +
+        return "IssueDTO{" +
                 "issueId=" + issueId +
                 ", isbn='" + isbn + '\'' +
                 ", memberId='" + memberId + '\'' +

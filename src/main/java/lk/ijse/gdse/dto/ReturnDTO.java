@@ -1,27 +1,25 @@
-package lk.ijse.gdse.entity;
+package lk.ijse.gdse.dto;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Return implements SuperEntity {
+public class ReturnDTO {
+    private int issueId;
+    private Date date;
 
-    int IssueId;
-    Date date;
-
-    public Return() {
+    public ReturnDTO() {
     }
 
-    public Return(int issueId, Date date) {
-        IssueId = issueId;
+    public ReturnDTO(int issueId, Date date) {
+        this.issueId = issueId;
         this.date = date;
     }
 
     public int getIssueId() {
-        return IssueId;
+        return issueId;
     }
 
     public void setIssueId(int issueId) {
-        IssueId = issueId;
+        this.issueId = issueId;
     }
 
     public Date getDate() {
@@ -35,7 +33,7 @@ public class Return implements SuperEntity {
     @Override
     public String toString() {
         return "ReturnDTO{" +
-                "IssueId=" + IssueId +
+                "issueId=" + issueId +
                 ", date=" + date +
                 '}';
     }

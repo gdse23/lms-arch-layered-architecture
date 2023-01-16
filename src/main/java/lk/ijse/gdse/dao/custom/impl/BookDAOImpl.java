@@ -24,7 +24,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public Book save(Book book) throws SQLException, ClassNotFoundException {
 
-        if(DBUtil.executeUpdate("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)",
+        if(DBUtil.executeUpdate("INSERT INTO BookDTO (isbn, title, author,qty) VALUES (?,?,?,?)",
                 book.getIsbn(),book.getTitle(),book.getAuthor(),book.getQty())){
             return book;
         }
@@ -32,7 +32,7 @@ public class BookDAOImpl implements BookDAO {
     }
     @Override
     public Book update(Book book) throws SQLException, ClassNotFoundException {
-        if(DBUtil.executeUpdate("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?",book.getTitle(),book.getAuthor(),book.getQty(),book.getIsbn())){
+        if(DBUtil.executeUpdate("UPDATE BookDTO SET title=? ,author=? ,qty=? WHERE isbn=?",book.getTitle(),book.getAuthor(),book.getQty(),book.getIsbn())){
             return book;
         }
         throw new RuntimeException("Failed to update the book");
@@ -41,17 +41,17 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public void deleteByPk(String isbn) throws SQLException, ClassNotFoundException {
 
-        if(!DBUtil.executeUpdate("DELETE FROM Book WHERE isbn=?",isbn)) throw new RuntimeException("Failed to delete the book");
+        if(!DBUtil.executeUpdate("DELETE FROM BookDTO WHERE isbn=?",isbn)) throw new RuntimeException("Failed to delete the book");
     }
     @Override
     public List<Book> findAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book");
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO");
         return getBookList(rst);
     }
 
     @Override
     public Optional<Book> findByPk(String pk) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", pk);
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn=?", pk);
         if(rst.next()){
             return Optional.of(new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty")));
 
@@ -62,19 +62,19 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public long count() throws SQLException, ClassNotFoundException {
 
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(isbn) AS count FROM Book");
+        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(isbn) AS count FROM BookDTO");
         rst.next();
         return rst.getInt(1);
     }
     @Override
     public boolean existByPk(String isbn) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", isbn);
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn=?", isbn);
         return rst.next();
     }
     @Override
     public List<Book> searchByText(String text) throws SQLException, ClassNotFoundException {
         text="%"+text+"%";
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
         return getBookList(rst);
 
     }

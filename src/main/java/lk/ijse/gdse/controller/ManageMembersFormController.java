@@ -82,7 +82,7 @@ public class ManageMembersFormController {
         UpdateMemberFormController controller = fxmlLoader.getController();
         controller.init(tblMembers.getSelectionModel().getSelectedItem(),this);
         Stage stage = new Stage();
-        stage.setTitle("Update/Delete Member details");
+        stage.setTitle("Update/Delete MemberDTO details");
         stage.setScene(new Scene(load));
         stage.centerOnScreen();
         stage.initModality(Modality.APPLICATION_MODAL);
