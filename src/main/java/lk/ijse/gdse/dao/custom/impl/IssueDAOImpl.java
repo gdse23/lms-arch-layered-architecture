@@ -4,9 +4,11 @@ import lk.ijse.gdse.dao.custom.IssueDAO;
 import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.entity.Issue;
+import lk.ijse.gdse.entity.Return;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +52,13 @@ public class IssueDAOImpl implements IssueDAO {
     }
 
     @Override
-    public List<Issue> findAll() throws SQLException {
-        return null;
+    public List<Issue> findAll() throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue");
+        List<Issue> issueList = new ArrayList<>();
+        while (rst.next()){
+            issueList.add(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("date")));
+        }
+        return issueList;
     }
 
     @Override
