@@ -1,5 +1,6 @@
 lk/ijse/gdse/to/Book.class
 lk/ijse/gdse/model/ManageIssueModel.class
+lk/ijse/gdse/dao/util/DBUtil.class
 lk/ijse/gdse/util/Navigation.class
 lk/ijse/gdse/controller/ManageMembersFormController.class
 lk/ijse/gdse/model/ManageReturnModel.class
