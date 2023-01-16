@@ -7,5 +7,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BookDAO extends SuperDAO<Book,String> {
-    public List<Book> searchByText(String text) throws SQLException;
+    public List<Book> searchByText(String text) throws SQLException, ClassNotFoundException;
 }

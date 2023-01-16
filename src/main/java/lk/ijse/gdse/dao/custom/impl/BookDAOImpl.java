@@ -1,6 +1,7 @@
 package lk.ijse.gdse.dao.custom.impl;
 
 import lk.ijse.gdse.dao.custom.BookDAO;
+import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.entity.Book;
 
@@ -21,50 +22,38 @@ public class BookDAOImpl implements BookDAO {
         this.connection = DBConnection.getDbConnection().getConnection();
     }
     @Override
-    public Book save(Book book) throws SQLException{
-        PreparedStatement stm = connection.prepareStatement("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)");
-        stm.setString(1,book.getIsbn());
-        stm.setString(2,book.getTitle());
-        stm.setString(3,book.getAuthor());
-        stm.setInt(4,book.getQty());
-        if (stm.executeUpdate()!=1) throw new RuntimeException("Failed to save the book");
-        return book;
-    }
-    @Override
-    public Book update(Book book) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?");
-        stm.setString(1,book.getTitle());
-        stm.setString(2,book.getAuthor());
-        stm.setInt(3,book.getQty());
-        stm.setString(4,book.getIsbn());
+    public Book save(Book book) throws SQLException, ClassNotFoundException {
 
-        if(stm.executeUpdate()!=1) throw new RuntimeException("Failed to update the book");
-        return book;
-
-    }
-    @Override
-    public void deleteByPk(String isbn) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("DELETE FROM Book WHERE isbn=?");
-        stm.setString(1,isbn);
-        if(stm.executeUpdate()!=1) throw new RuntimeException("Failed to delete the book");
-    }
-    @Override
-    public List<Book> findAll() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book");
-        ResultSet rst = stm.executeQuery();
-        List<Book> bookList= new ArrayList<>();
-        while (rst.next()){
-            Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
-            bookList.add(book);
+        if(DBUtil.executeUpdate("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)",
+                book.getIsbn(),book.getTitle(),book.getAuthor(),book.getQty())){
+            return book;
         }
-        return bookList;
+        throw new RuntimeException("Failed to save the book");
+    }
+    @Override
+    public Book update(Book book) throws SQLException, ClassNotFoundException {
+        if(DBUtil.executeUpdate("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?",book.getTitle(),book.getAuthor(),book.getQty(),book.getIsbn())){
+            return book;
+        }
+        throw new RuntimeException("Failed to update the book");
+
+    }
+    @Override
+    public void deleteByPk(String isbn) throws SQLException, ClassNotFoundException {
+
+        if(!DBUtil.executeUpdate("DELETE FROM Book WHERE isbn=?",isbn)) throw new RuntimeException("Failed to delete the book");
+    }
+    @Override
+    public List<Book> findAll() throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book");
+        return getBookList(rst);
     }
 
+
+
     @Override
-    public Optional<Book> findByPk(String pk) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
-        stm.setString(1,pk);
-        ResultSet rst = stm.executeQuery();
+    public Optional<Book> findByPk(String pk) throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", pk);
         if(rst.next()){
             return Optional.of(new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty")));
 
@@ -73,31 +62,21 @@ public class BookDAOImpl implements BookDAO {
 
     }
     @Override
-    public long count() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT COUNT(isbn) AS count FROM Book;");
-        ResultSet rst = stm.executeQuery();
+    public long count() throws SQLException, ClassNotFoundException {
+
+        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(isbn) AS count FROM Book");
         rst.next();
         return rst.getInt(1);
     }
     @Override
-    public boolean existByPk(String isbn) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
-        ResultSet rst = stm.executeQuery();
+    public boolean existByPk(String isbn) throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", isbn);
         return rst.next();
     }
     @Override
-    public List<Book> searchByText(String text) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ");
+    public List<Book> searchByText(String text) throws SQLException, ClassNotFoundException {
         text="%"+text+"%";
-        for (int i = 0; i < 3; i++) {
-            stm.setString(i+1,text);
-        }
-        ResultSet rst = stm.executeQuery();
-        List<Book> bookList= new ArrayList<>();
-        while (rst.next()){
-            Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
-            bookList.add(book);
-        }
+        ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
         return getBookList(rst);
 
     }

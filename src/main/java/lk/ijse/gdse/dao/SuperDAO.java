@@ -10,19 +10,19 @@ import java.util.Optional;
 
 public interface SuperDAO<T extends SuperEntity ,ID extends Serializable> {
 
-    T save(T entity) throws SQLException;
+    T save(T entity) throws SQLException, ClassNotFoundException;
 
-    T update(T entity) throws SQLException;
+    T update(T entity) throws SQLException, ClassNotFoundException;
 
-    void deleteByPk(ID pk) throws SQLException;
+    void deleteByPk(ID pk) throws SQLException, ClassNotFoundException;
 
-    List<T> findAll() throws SQLException;
+    List<T> findAll() throws SQLException, ClassNotFoundException;
 
-    Optional<T> findByPk(ID pk) throws SQLException;
+    Optional<T> findByPk(ID pk) throws SQLException, ClassNotFoundException;
 
-    boolean existByPk(ID pk) throws SQLException;
+    boolean existByPk(ID pk) throws SQLException, ClassNotFoundException;
 
-    long count() throws SQLException;
+    long count() throws SQLException, ClassNotFoundException;
 
 
 }
