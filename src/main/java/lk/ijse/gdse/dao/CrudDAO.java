@@ -1,5 +1,6 @@
 package lk.ijse.gdse.dao;
 
+import lk.ijse.gdse.dao.exception.ConstraintViolationException;
 import lk.ijse.gdse.entity.SuperEntity;
 
 import java.io.Serializable;
@@ -9,19 +10,19 @@ import java.util.Optional;
 
 public interface CrudDAO<T extends SuperEntity ,ID extends Serializable> extends SuperDAO{
 
-    T save(T entity) throws SQLException, ClassNotFoundException;
+    T save(T entity) throws ConstraintViolationException;
 
-    T update(T entity) throws SQLException, ClassNotFoundException;
+    T update(T entity) throws ConstraintViolationException;
 
-    void deleteByPk(ID pk) throws SQLException, ClassNotFoundException;
+    void deleteByPk(ID pk) throws ConstraintViolationException;
 
-    List<T> findAll() throws SQLException, ClassNotFoundException;
+    List<T> findAll() ;
 
-    Optional<T> findByPk(ID pk) throws SQLException, ClassNotFoundException;
+    Optional<T> findByPk(ID pk) ;
 
-    boolean existByPk(ID pk) throws SQLException, ClassNotFoundException;
+    boolean existByPk(ID pk) ;
 
-    long count() throws SQLException, ClassNotFoundException;
+    long count() ;
 
 
 }

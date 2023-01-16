@@ -1,6 +1,7 @@
 package lk.ijse.gdse.dao.custom.impl;
 
 import lk.ijse.gdse.dao.custom.MemberDAO;
+import lk.ijse.gdse.dao.exception.ConstraintViolationException;
 import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.entity.Book;
 import lk.ijse.gdse.entity.Member;
@@ -14,60 +15,91 @@ import java.util.Optional;
 public class MemberDAOImpl implements MemberDAO {
 
     @Override
-    public Member save(Member member) throws SQLException, ClassNotFoundException {
-         if(DBUtil.executeUpdate("INSERT INTO MemberDTO (id, name, address, contact) VALUES (?,?,?,?)",
-                 member.getId(), member.getName(), member.getAddress(), member.getContact())){
-             return member;
+    public Member save(Member member) throws ConstraintViolationException {
+         try {
+             if(DBUtil.executeUpdate("INSERT INTO Member (id, name, address, contact) VALUES (?,?,?,?)",
+                     member.getId(), member.getName(), member.getAddress(), member.getContact())){
+                 return member;
+             }
+
+             throw new SQLException("Failed to save the member");
+         } catch (SQLException e) {
+             throw new ConstraintViolationException(e);
          }
 
-         throw new RuntimeException("Failed to save the member");
     }
 
     @Override
-    public Member update(Member member) throws SQLException, ClassNotFoundException {
-        if(DBUtil.executeUpdate("UPDATE  MemberDTO SET name=? ,address=?, contact=? WHERE id =?",
-                member.getName(), member.getAddress(), member.getContact(), member.getId())){
+    public Member update(Member member) throws ConstraintViolationException {
+        try {
+            if(DBUtil.executeUpdate("UPDATE  Member SET name=? ,address=?, contact=? WHERE id =?",
+                    member.getName(), member.getAddress(), member.getContact(), member.getId())){
 
-            return member;
+                return member;
 
-        }
-        throw new RuntimeException(" Failed to update the member");
-    }
+            }
 
-    @Override
-    public void deleteByPk(String memberId) throws SQLException, ClassNotFoundException {
-        if(!DBUtil.executeUpdate("DELETE FROM MemberDTO WHERE id=?",memberId)){
-            throw new RuntimeException("Failed to delete the member!");
+            throw new SQLException("Failed to update the member!");
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
         }
     }
 
     @Override
-    public List<Member> findAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM MemberDTO");
-        return getMemberList(rst);
-    }
+    public void deleteByPk(String memberId) throws ConstraintViolationException {
+        try {
+            if(!DBUtil.executeUpdate("DELETE FROM Member WHERE id=?",memberId)){
+                throw new RuntimeException("Failed to delete the member!");
+            }
 
-    @Override
-    public Optional<Member> findByPk(String memberId) throws SQLException, ClassNotFoundException {
-
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM MemberDTO WHERE id=?", memberId);
-        if (rst.next()){
-             return Optional.of(new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact")));
+            throw new SQLException("Failed to delete the member!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        return Optional.empty();
     }
 
     @Override
-    public boolean existByPk(String memberId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM MemberDTO WHERE id=?", memberId);
-        return rst.next();
+    public List<Member> findAll()  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Member");
+            return getMemberList(rst);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public long count() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(id) AS count FROM MemberDTO");
-        return rst.getInt(1);
+    public Optional<Member> findByPk(String memberId)  {
+
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Member WHERE id=?", memberId);
+            if (rst.next()){
+                return Optional.of(new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact")));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean existByPk(String memberId)  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Member WHERE id=?", memberId);
+            return rst.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public long count()  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT COUNT(id) AS count FROM Member");
+            return rst.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private List<Member> getMemberList(ResultSet rst) throws SQLException {

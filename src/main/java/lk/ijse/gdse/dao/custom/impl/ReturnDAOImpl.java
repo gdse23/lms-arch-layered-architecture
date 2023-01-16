@@ -1,6 +1,7 @@
 package lk.ijse.gdse.dao.custom.impl;
 
 import lk.ijse.gdse.dao.custom.ReturnDAO;
+import lk.ijse.gdse.dao.exception.ConstraintViolationException;
 import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.entity.Return;
 import lk.ijse.gdse.entity.SuperEntity;
@@ -17,61 +18,89 @@ public class ReturnDAOImpl implements ReturnDAO {
 
 
     @Override
-    public Return save(Return returnEntity) throws SQLException, ClassNotFoundException {
-        if(DBUtil.executeUpdate("INSERT INTO `ReturnDTO` (issue_id, date) VALUES (?,?)",
-                returnEntity.getIssueId(),returnEntity.getDate())){
-            return returnEntity;
-        }
-        throw new RuntimeException("Failed to return the book!");
-    }
-
-    @Override
-    public Return update(Return entity) throws SQLException, ClassNotFoundException {
-        if( DBUtil.executeUpdate("UPDATE `ReturnDTO` SET date=? WHERE issue_id=?", entity.getDate(), entity.getIssueId())){
-            return entity;
-        }
-
-        throw new RuntimeException("Failed to update the return date!");
-    }
-
-    @Override
-    public void deleteByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        if(!DBUtil.executeUpdate("DELETE FROM `ReturnDTO` WHERE issue_id =?",issueId)){
-            throw new RuntimeException("Failed to delete the return record!");
+    public Return save(Return returnEntity) throws ConstraintViolationException {
+        try {
+            if(DBUtil.executeUpdate("INSERT INTO `Return` (issue_id, date) VALUES (?,?)",
+                    returnEntity.getIssueId(),returnEntity.getDate())){
+                return returnEntity;
+            }
+            throw new SQLException("Failed to return the book!");
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
         }
     }
 
     @Override
-    public List<Return> findAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue");
-        List<Return> returnList = new ArrayList<>();
-        while (rst.next()){
-            returnList.add(new Return(rst.getInt("issue_id"),rst.getDate("date")));
+    public Return update(Return entity) throws ConstraintViolationException {
+        try {
+            if( DBUtil.executeUpdate("UPDATE `Return` SET date=? WHERE issue_id=?", entity.getDate(), entity.getIssueId())){
+                return entity;
+            }
+
+            throw new SQLException("Failed to update the return date!");
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
         }
-        return returnList;
-
     }
 
     @Override
-    public Optional<Return> findByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `ReturnDTO` WHERE issue_id =?", issueId);
-        if (rst.next()){
-            return Optional.of(new Return(rst.getInt("issue_id"),rst.getDate("date")));
+    public void deleteByPk(Integer issueId) throws ConstraintViolationException {
+        try {
+            if(!DBUtil.executeUpdate("DELETE FROM `Return` WHERE issue_id =?",issueId)){
+                throw new SQLException("Failed to delete the return record!");
+            }
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
         }
-        return Optional.empty();
     }
 
     @Override
-    public boolean existByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM `ReturnDTO` WHERE issue_id= ?", issueId);
-        return rst.next();
+    public List<Return> findAll()  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM `Return`");
+            List<Return> returnList = new ArrayList<>();
+            while (rst.next()){
+                returnList.add(new Return(rst.getInt("issue_id"),rst.getDate("date")));
+            }
+            return returnList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
-    public long count() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM `ReturnDTO`");
-        rst.next();
-        return rst.getInt(1);
+    public Optional<Return> findByPk(Integer issueId)  {
+
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM `Return` WHERE issue_id =?", issueId);
+            if (rst.next()){
+                return Optional.of(new Return(rst.getInt("issue_id"),rst.getDate("date")));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean existByPk(Integer issueId)  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM `Return` WHERE issue_id= ?", issueId);
+            return rst.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public long count()  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM `Return`");
+            rst.next();
+            return rst.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

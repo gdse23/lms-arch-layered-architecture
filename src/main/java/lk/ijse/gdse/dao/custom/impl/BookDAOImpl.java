@@ -23,61 +23,60 @@ public class BookDAOImpl implements BookDAO {
         this.connection = DBConnection.getDbConnection().getConnection();
     }
     @Override
-    public Book save(Book book)  {
+    public Book save(Book book)  throws ConstraintViolationException{
         try {
-            if(DBUtil.executeUpdate("INSERT INTO BookDTO (isbn, title, author,qty) VALUES (?,?,?,?)",
+            if(DBUtil.executeUpdate("INSERT INTO Book (isbn, title, author,qty) VALUES (?,?,?,?)",
                     book.getIsbn(),book.getTitle(),book.getAuthor(),book.getQty())){
                 return book;
             }
+            throw new SQLException("Failed to save the book");
         }catch (SQLException e){
-            throw new ConstraintViolationException("Failed to save the book");
-
+            throw new ConstraintViolationException(e);
         }
 
-        throw new RuntimeException("Failed to save the book");
     }
     @Override
-    public Book update(Book book) {
+    public Book update(Book book) throws ConstraintViolationException{
         try {
-            if(DBUtil.executeUpdate("UPDATE BookDTO SET title=? ,author=? ,qty=? WHERE isbn=?",book.getTitle(),book.getAuthor(),book.getQty(),book.getIsbn())){
+            if(DBUtil.executeUpdate("UPDATE Book SET title=? ,author=? ,qty=? WHERE isbn=?",book.getTitle(),book.getAuthor(),book.getQty(),book.getIsbn())){
                 return book;
             }
-            throw new RuntimeException("Book Update Unsuccessful!");
+            throw new SQLException("Failed to update the book");
         } catch (SQLException e) {
-            throw new ConstraintViolationException("Failed to update the book");
+            throw new ConstraintViolationException(e);
         }
 
     }
     @Override
-    public void deleteByPk(String isbn){
+    public void deleteByPk(String isbn) throws ConstraintViolationException{
 
         try {
-            if(!DBUtil.executeUpdate("DELETE FROM BookDTO WHERE isbn=?",isbn)) throw new RuntimeException("Failed to delete the book");
+            if(!DBUtil.executeUpdate("DELETE FROM Book WHERE isbn=?",isbn)) throw new SQLException("Failed to delete the book");
         } catch (SQLException e) {
-            throw new ConstraintViolationException("Failed to delete the book");
+            throw new ConstraintViolationException(e);
         }
     }
     @Override
     public List<Book> findAll() {
         try{
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO");
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book");
             return getBookList(rst);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load the book");
         }
     }
 
     @Override
     public Optional<Book> findByPk(String pk) {
         try{
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn=?", pk);
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", pk);
             if(rst.next()){
                 return Optional.of(new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty")));
 
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to find the book details");
         }
 
     }
@@ -95,7 +94,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public boolean existByPk(String isbn)  {
         try {
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn=?", isbn);
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", isbn);
             return rst.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,7 +104,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> searchByText(String text){
         try{
             text="%"+text+"%";
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
             return getBookList(rst);
         } catch (SQLException e) {
             throw new RuntimeException(e);

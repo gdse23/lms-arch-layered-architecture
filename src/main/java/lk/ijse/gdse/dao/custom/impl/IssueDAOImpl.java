@@ -1,6 +1,7 @@
 package lk.ijse.gdse.dao.custom.impl;
 
 import lk.ijse.gdse.dao.custom.IssueDAO;
+import lk.ijse.gdse.dao.exception.ConstraintViolationException;
 import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.entity.Issue;
@@ -16,72 +17,99 @@ public class IssueDAOImpl implements IssueDAO {
 
     private final Connection connection = DBConnection.getDbConnection().getConnection();
 
-    public IssueDAOImpl() throws SQLException, ClassNotFoundException {
+    public IssueDAOImpl() {
     }
 
     @Override
-    public Issue save(Issue issue) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement
-                ("INSERT INTO issue SET  isbn=? ,memberId=?,date =?", Statement.RETURN_GENERATED_KEYS);
-        stm.setString(1,issue.getIsbn());
-        stm.setString(2,issue.getMemberId());
-        stm.setDate(3, Date.valueOf(LocalDate.now()));
-        stm.executeUpdate();
-        ResultSet generatedKeys = stm.getGeneratedKeys();
-        generatedKeys.next();
-        int issueId = generatedKeys.getInt(1);
-        issue.setIssueId(issueId);
-        return issue;
-
-    }
-
-    @Override
-    public Issue update(Issue issue) throws SQLException, ClassNotFoundException {
-        if(DBUtil.executeUpdate("UPDATE  issue SET isbn =? , memberId=? WHERE issue_id =?",issue.getIsbn(),issue.getMemberId(),issue.getIssueId())){
+    public Issue save(Issue issue) throws ConstraintViolationException {
+        try {
+            PreparedStatement stm = connection.prepareStatement
+                    ("INSERT INTO issue SET  isbn=? ,memberId=?,date =?", Statement.RETURN_GENERATED_KEYS);
+            stm.setString(1,issue.getIsbn());
+            stm.setString(2,issue.getMemberId());
+            stm.setDate(3, Date.valueOf(LocalDate.now()));
+            if(stm.executeUpdate()!=1) throw new SQLException("Failed to create the book");
+            ResultSet generatedKeys = stm.getGeneratedKeys();
+            generatedKeys.next();
+            int issueId = generatedKeys.getInt(1);
+            issue.setIssueId(issueId);
             return issue;
-        }
-        throw new RuntimeException("Failed to update the issue!");
-    }
-
-    @Override
-    public void deleteByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        if(!DBUtil.executeUpdate("DELETE FROM issue WHERE issue_id=?",issueId)){
-            throw new RuntimeException("Failed to delete the issue");
+        } catch (SQLException e) {
+            throw new  ConstraintViolationException(e);
         }
 
     }
 
     @Override
-    public List<Issue> findAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue");
-        List<Issue> issueList = new ArrayList<>();
-        while (rst.next()){
-            issueList.add(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("date")));
+    public Issue update(Issue issue) throws ConstraintViolationException {
+        try {
+            if(DBUtil.executeUpdate("UPDATE  issue SET isbn =? , memberId=? WHERE issue_id =?",issue.getIsbn(),issue.getMemberId(),issue.getIssueId())){
+                return issue;
+            }
+            throw new SQLException("Failed to update the issue!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return issueList;
     }
 
     @Override
-    public Optional<Issue> findByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue WHERE issue_id =?", issueId);
-        if(rst.next()){
-            return Optional.of(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("datet")));
+    public void deleteByPk(Integer issueId) throws ConstraintViolationException {
+        try {
+            if(!DBUtil.executeUpdate("DELETE FROM issue WHERE issue_id=?",issueId)){
+                throw new SQLException("Failed to delete the issue");
+            }
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
         }
 
-        return Optional.empty();
+    }
+
+    @Override
+    public List<Issue> findAll()  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue");
+            List<Issue> issueList = new ArrayList<>();
+            while (rst.next()){
+                issueList.add(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("date")));
+            }
+            return issueList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Issue> findByPk(Integer issueId)  {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue WHERE issue_id =?", issueId);
+            if(rst.next()){
+                return Optional.of(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("datet")));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @Override
-    public boolean existByPk(Integer issueId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue WHERE issue_id =?", issueId);
-        return rst.next();
+    public boolean existByPk(Integer issueId) {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue WHERE issue_id =?", issueId);
+            return rst.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public long count() throws SQLException, ClassNotFoundException {
-        ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM issue");
-        rst.next();
-        return rst.getInt(1);
+    public long count() {
+        try {
+            ResultSet rst = DBUtil.executeQuery("SELECT COUNT(issue_id) AS count FROM issue");
+            rst.next();
+            return rst.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
