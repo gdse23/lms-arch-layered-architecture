@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BookDAOImpl implements BookDAO {
 
@@ -60,8 +61,16 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book findByPk(String pk) throws SQLException {
-        return null;
+    public Optional<Book> findByPk(String pk) throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Book WHERE isbn=?");
+        stm.setString(1,pk);
+        ResultSet rst = stm.executeQuery();
+        if(rst.next()){
+            return Optional.of(new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty")));
+
+        }
+        return Optional.empty();
+
     }
     @Override
     public long count() throws SQLException {
@@ -89,8 +98,17 @@ public class BookDAOImpl implements BookDAO {
             Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
             bookList.add(book);
         }
-        return bookList;
+        return getBookList(rst);
 
+    }
+
+    private List<Book> getBookList(ResultSet rst) throws SQLException {
+        List<Book> bookList= new ArrayList<>();
+        while (rst.next()){
+            Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
+            bookList.add(book);
+        }
+        return bookList;
     }
 
 }

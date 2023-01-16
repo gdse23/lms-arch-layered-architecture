@@ -5,6 +5,7 @@ import lk.ijse.gdse.entity.Issue;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class IssueDAOImpl implements IssueDAO {
 
@@ -29,8 +30,8 @@ public class IssueDAOImpl implements IssueDAO {
     }
 
     @Override
-    public Issue findByPk(Integer pk) throws SQLException {
-        return null;
+    public Optional<Issue> findByPk(Integer pk) throws SQLException {
+        return Optional.empty();
     }
 
     @Override

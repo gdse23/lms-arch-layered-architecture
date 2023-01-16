@@ -6,8 +6,9 @@ import lk.ijse.gdse.entity.SuperEntity;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-public interface SuperDAO<T extends SuperEntity,ID extends Serializable> {
+public interface SuperDAO<T extends SuperEntity ,ID extends Serializable> {
 
     T save(T entity) throws SQLException;
 
@@ -17,7 +18,7 @@ public interface SuperDAO<T extends SuperEntity,ID extends Serializable> {
 
     List<T> findAll() throws SQLException;
 
-    T findByPk(ID pk) throws SQLException;
+    Optional<T> findByPk(ID pk) throws SQLException;
 
     boolean existByPk(ID pk) throws SQLException;
 

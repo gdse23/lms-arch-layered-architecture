@@ -5,6 +5,7 @@ import lk.ijse.gdse.entity.Member;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class MemberDAOImpl implements MemberDAO {
 
@@ -29,8 +30,8 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public Member findByPk(String pk) throws SQLException {
-        return null;
+    public Optional<Member> findByPk(String pk) throws SQLException {
+        return Optional.empty();
     }
 
     @Override
