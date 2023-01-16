@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-    private static PreparedStatement getPreparedStatement(String sql, Object[] args) throws SQLException, ClassNotFoundException {
+    private static PreparedStatement getPreparedStatement(String sql, Object[] args) throws SQLException{
         PreparedStatement stm = DBConnection.getDbConnection().getConnection().prepareStatement(sql);
 
         for (int i = 0; i < args.length; i++) {
@@ -17,13 +17,13 @@ public class DBUtil {
         return stm;
     }
 
-    public static ResultSet executeQuery(String sql,Object ... args) throws SQLException, ClassNotFoundException {
+    public static ResultSet executeQuery(String sql,Object ... args) throws SQLException{
         PreparedStatement stm = DBUtil.getPreparedStatement(sql, args);
         return stm.executeQuery();
 
     }
 
-    public static boolean executeUpdate(String sql , Object ... args) throws SQLException, ClassNotFoundException {
+    public static boolean executeUpdate(String sql , Object ... args) throws SQLException{
         PreparedStatement stm = DBUtil.getPreparedStatement(sql, args);
         return stm.executeUpdate()>0;
     }

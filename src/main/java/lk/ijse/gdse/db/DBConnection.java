@@ -9,13 +9,17 @@ public class DBConnection {
 
     private final Connection connection;
 
-    public DBConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        this.connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/lms_gdse","root","KPsuneetha@123");
+    public DBConnection() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            this.connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/lms_gdse","root","KPsuneetha@123");
+        }catch (ClassNotFoundException | SQLException e){
+            throw new RuntimeException("Failed to load the database");
+        }
 
     }
 
-    public static DBConnection getDbConnection() throws SQLException, ClassNotFoundException {
+    public static DBConnection getDbConnection() {
         return dbConnection==null?dbConnection=new DBConnection():dbConnection;
     }
 
