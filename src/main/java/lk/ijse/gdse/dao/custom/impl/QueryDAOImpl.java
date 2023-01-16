@@ -3,14 +3,27 @@ package lk.ijse.gdse.dao.custom.impl;
 import lk.ijse.gdse.dao.custom.QueryDAO;
 import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.dto.IssueDTO;
+import lk.ijse.gdse.dto.Status;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryDAOImpl implements QueryDAO {
     @Override
-    public IssueDTO findAllIssuesByMemberId(String memberId) {
-        return null;
+    public List<IssueDTO> findAllIssuesByMemberId(String memberId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT i.issue_id,i.isbn,M.id,i.date,R.date is not null as returnStatus  FROM issue i LEFT JOIN Member M on i.memberId = M.id LEFT JOIN `Return` R on i.issue_id = R.issue_id WHERE M.id=? GROUP BY i.issue_id", memberId);
+        List<IssueDTO> issueDTOList = new ArrayList<>();
+        while (rst.next()){
+
+            IssueDTO issueDTO = new IssueDTO(rst.getInt("issue_id"), rst.getString("isbn"), memberId, rst.getDate("date"), rst.getBoolean("returnStatus") ?
+                    Status.RETURNED : Status.NOT_RETURNED);
+
+            issueDTOList.add(issueDTO);
+        }
+        return issueDTOList;
+
     }
 
     @Override
