@@ -9,7 +9,7 @@ public interface QueryDAO extends SuperDAO {
 
     public IssueDTO findAllIssuesByMemberId(String memberId) ;
 
-    public int findIssuedBooksCount(String memberId);
+    public int findIssuedBooksCount(String memberId) throws SQLException, ClassNotFoundException;
 
     public int availableBooksCount(String isbn) throws SQLException, ClassNotFoundException;
 

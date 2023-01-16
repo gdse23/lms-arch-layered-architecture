@@ -14,8 +14,10 @@ public class QueryDAOImpl implements QueryDAO {
     }
 
     @Override
-    public int findIssuedBooksCount(String memberId) {
-        return 0;
+    public int findIssuedBooksCount(String memberId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = DBUtil.executeQuery("SELECT (COUNT(i.issue_id)-COUNT(R.date)) as OrderedBooksCount FROM Member m LEFT JOIN issue i on m.id = i.memberId LEFT JOIN `Return` R on i.issue_id = R.issue_id WHERE m.id=? GROUP BY m.id", memberId);
+        rst.next();
+        return rst.getInt(1);
     }
 
     @Override
