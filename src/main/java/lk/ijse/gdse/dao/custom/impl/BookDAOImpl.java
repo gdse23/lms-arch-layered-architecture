@@ -49,8 +49,6 @@ public class BookDAOImpl implements BookDAO {
         return getBookList(rst);
     }
 
-
-
     @Override
     public Optional<Book> findByPk(String pk) throws SQLException, ClassNotFoundException {
         ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn=?", pk);
