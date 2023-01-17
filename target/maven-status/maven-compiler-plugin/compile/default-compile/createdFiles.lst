@@ -38,8 +38,8 @@ lk/ijse/gdse/dao/custom/impl/IssueDAOImpl.class
 lk/ijse/gdse/to/Issue.class
 lk/ijse/gdse/dao/CrudDAO.class
 lk/ijse/gdse/view/tm/IssueTM.class
-lk/ijse/gdse/entity/Member.class
 lk/ijse/gdse/dao/custom/impl/QueryDAOImpl.class
+lk/ijse/gdse/entity/Member.class
 lk/ijse/gdse/to/Status.class
 lk/ijse/gdse/util/Navigation$1.class
 lk/ijse/gdse/model/ManageMemberModel.class
@@ -49,6 +49,7 @@ lk/ijse/gdse/dao/custom/MemberDAO.class
 lk/ijse/gdse/controller/book/AddBookFormController.class
 lk/ijse/gdse/util/Route.class
 lk/ijse/gdse/view/tm/MemberTM.class
+lk/ijse/gdse/dao/exception/ConstraintViolationException.class
 lk/ijse/gdse/entity/Issue.class
 lk/ijse/gdse/controller/member/ShowIssueListFormController.class
 lk/ijse/gdse/dao/custom/QueryDAO.class

@@ -15,7 +15,7 @@ public class ManageIssueModel {
             stm.setString(1,issueId);
             ResultSet rst = stm.executeQuery();
             return rst.next();
-        } catch (SQLException |ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
 
@@ -34,7 +34,7 @@ public class ManageIssueModel {
             int issueId = keys.getInt(1);
             issue.setIssueId(issueId);
             return issue;
-        } catch (SQLException |ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -51,7 +51,7 @@ public class ManageIssueModel {
             }
             return issueList;
 
-        } catch (SQLException |ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -64,7 +64,7 @@ public class ManageIssueModel {
             stm.setString(2,issue.getMemberId());
             stm.setInt(3,issue.getIssueId());
             stm.executeUpdate();
-        }catch (SQLException | ClassNotFoundException e){
+        }catch (SQLException  e){
             throw new RuntimeException(e);
         }
     }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ManageMemberModel {
 
-    public static List<Member> getAllMembers() throws SQLException, ClassNotFoundException {
+    public static List<Member> getAllMembers() throws SQLException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Member");
         ResultSet rst = stm.executeQuery();
@@ -43,12 +43,12 @@ public class ManageMemberModel {
                 memberList.add(member);
             }
             return memberList;
-        } catch (SQLException| ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static boolean addMember(Member member) throws SQLException, ClassNotFoundException {
+    public static boolean addMember(Member member) throws SQLException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement stm = connection.prepareStatement("INSERT INTO Member (id, name, address, contact) VALUES (?,?,?,?)");
         stm.setString(1,member.getId());
@@ -67,7 +67,7 @@ public class ManageMemberModel {
             ResultSet rst = stm.executeQuery();
             return rst.next();
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
 
@@ -85,7 +85,7 @@ public class ManageMemberModel {
             return stm.executeUpdate()==1;
 
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -135,7 +135,7 @@ public class ManageMemberModel {
 
 
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -154,7 +154,7 @@ public class ManageMemberModel {
             ResultSet rst = stm.executeQuery();
             rst.next();
             return rst.getInt("borrowedItems");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -174,7 +174,7 @@ public class ManageMemberModel {
                 issueTMList.add(issueTM);
             }
             return issueTMList;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }

@@ -17,7 +17,7 @@ public class DaoFactory {
         return daoFactory==null?(daoFactory=new DaoFactory()):daoFactory;
     }
 
-    public <T extends SuperDAO> T getDAO(DaoTypes daoType) throws SQLException, ClassNotFoundException {
+    public <T extends SuperDAO> T getDAO(DaoTypes daoType) {
         switch (daoType){
             case MEMBER:
                 return (T)new MemberDAOImpl();

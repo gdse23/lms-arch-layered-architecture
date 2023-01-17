@@ -1,5 +1,8 @@
 package lk.ijse.gdse.model;
 
+import lk.ijse.gdse.dao.DaoFactory;
+import lk.ijse.gdse.dao.DaoTypes;
+import lk.ijse.gdse.dao.custom.ReturnDAO;
 import lk.ijse.gdse.db.DBConnection;
 import lk.ijse.gdse.to.Return;
 import java.sql.Connection;
@@ -8,21 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManageReturnModel {
     public static List<Return> getAllReturns() {
-        List<Return> returnList=new ArrayList<>();
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT * FROM `Return`");
-            ResultSet rst = stm.executeQuery();
-            while (rst.next()){
-                returnList.add(new Return(rst.getInt("issue_id"),rst.getDate("date")));
-            }
-            return returnList;
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
+        ReturnDAO returnDAO = DaoFactory.getInstance().getDAO(DaoTypes.RETURN);
+
+        return returnDAO.findAll().stream().map(returnItem -> new Return(returnItem.getIssueId(), returnItem.getDate())).collect(Collectors.toList());
 
     }
 
@@ -33,7 +29,7 @@ public class ManageReturnModel {
             stm.setInt(1,issueId);
             ResultSet rst = stm.executeQuery();
             return rst.next();
-        }catch (SQLException | ClassNotFoundException e){
+        }catch (SQLException  e){
             throw new RuntimeException(e);
         }
     }
@@ -46,7 +42,7 @@ public class ManageReturnModel {
             stm.setDate(2,aReturn.getDate());
             stm.executeUpdate();
 
-        }catch (SQLException | ClassNotFoundException e){
+        }catch (SQLException  e){
             throw new RuntimeException(e);
         }
     }
@@ -63,7 +59,7 @@ public class ManageReturnModel {
             }
             return returnList;
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }

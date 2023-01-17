@@ -28,7 +28,7 @@ public class ManageBookModel {
                 bookList.add(book);
             }
             return bookList;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -40,13 +40,13 @@ public class ManageBookModel {
 //            ResultSet rst = stm.executeQuery();
             List<Book> bookList =new ArrayList<>();
 
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM BookDTO");
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book");
             while (rst.next()){
                 Book book = new Book(rst.getString("isbn"), rst.getString("title"), rst.getString("author"), rst.getInt("qty"));
                 bookList.add(book);
             }
             return bookList;
-        } catch (SQLException |ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -59,7 +59,7 @@ public class ManageBookModel {
             ResultSet rst = stm.executeQuery();
             return rst.next();
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -73,7 +73,7 @@ public class ManageBookModel {
 //            stm.setString(3,book.getAuthor());
 
             return DBUtil.executeUpdate("INSERT INTO BookDTO (isbn, title, author,qty) VALUES (?,?,?,?)", book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty());
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
 
@@ -90,7 +90,7 @@ public class ManageBookModel {
 
             return stm.executeUpdate()==1;
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -101,7 +101,7 @@ public class ManageBookModel {
             PreparedStatement stm = connection.prepareStatement("DELETE  FROM Book WHERE isbn=?");
             stm.setString(1,isbn);
             return stm.executeUpdate()==1;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             throw new RuntimeException(e);
         }
     }
