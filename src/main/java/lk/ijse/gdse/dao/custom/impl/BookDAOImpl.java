@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +19,9 @@ public class BookDAOImpl implements BookDAO {
 
     private final Connection connection;
 
-    public BookDAOImpl() {
+    public BookDAOImpl(Connection connection) {
 
-        this.connection = DBConnection.getDbConnection().getConnection();
+        this.connection = connection;
     }
     @Override
     public Book save(Book book)  throws ConstraintViolationException{

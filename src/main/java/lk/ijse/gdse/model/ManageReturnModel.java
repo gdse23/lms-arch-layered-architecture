@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ManageReturnModel {
     public static List<Return> getAllReturns() {
 
-        ReturnDAO returnDAO = DaoFactory.getInstance().getDAO(DaoTypes.RETURN);
+        ReturnDAO returnDAO = DaoFactory.getInstance().getDAO(DBConnection.getDbConnection().getConnection(), DaoTypes.RETURN);
 
         return returnDAO.findAll().stream().map(returnItem -> new Return(returnItem.getIssueId(), returnItem.getDate())).collect(Collectors.toList());
 

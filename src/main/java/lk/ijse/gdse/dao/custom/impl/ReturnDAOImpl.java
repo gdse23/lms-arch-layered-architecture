@@ -8,6 +8,7 @@ import lk.ijse.gdse.entity.SuperEntity;
 import lk.ijse.gdse.view.tm.ReturnTM;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ import java.util.Optional;
 
 public class ReturnDAOImpl implements ReturnDAO {
 
+    private final Connection connection;
+
+    public ReturnDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public Return save(Return returnEntity) throws ConstraintViolationException {

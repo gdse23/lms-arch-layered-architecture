@@ -5,12 +5,20 @@ import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.dto.IssueDTO;
 import lk.ijse.gdse.dto.Status;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryDAOImpl implements QueryDAO {
+
+    private final Connection connection;
+
+    public QueryDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public List<IssueDTO> findAllIssuesByMemberId(String memberId)  {
         try {

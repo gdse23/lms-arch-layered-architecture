@@ -6,6 +6,7 @@ import lk.ijse.gdse.dao.util.DBUtil;
 import lk.ijse.gdse.entity.Book;
 import lk.ijse.gdse.entity.Member;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberDAOImpl implements MemberDAO {
+
+    private final Connection connection;
+
+    public MemberDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public Member save(Member member) throws ConstraintViolationException {

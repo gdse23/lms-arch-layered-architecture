@@ -15,9 +15,10 @@ import java.util.Optional;
 
 public class IssueDAOImpl implements IssueDAO {
 
-    private final Connection connection = DBConnection.getDbConnection().getConnection();
+    private final Connection connection;
 
-    public IssueDAOImpl() {
+    public IssueDAOImpl(Connection connection) {
+        this.connection=connection;
     }
 
     @Override
