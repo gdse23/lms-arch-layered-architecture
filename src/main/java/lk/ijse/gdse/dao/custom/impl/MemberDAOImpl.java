@@ -118,4 +118,20 @@ public class MemberDAOImpl implements MemberDAO {
         return memberList;
     }
 
+    @Override
+    public List<Member> searchMembersByText(String text) {
+        try{
+            text="%"+text+"%";
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Member WHERE id LIKE ? OR name LIKE ? OR address LIKE ? OR contact LIKE ? ", text, text, text, text);
+            List<Member> bookList= new ArrayList<>();
+            while (rst.next()){
+                Member member = new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
+                bookList.add(member);
+            }
+            return bookList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

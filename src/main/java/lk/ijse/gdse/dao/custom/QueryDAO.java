@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface QueryDAO extends SuperDAO {
 
-    public List<IssueDTO> findAllIssuesByMemberId(String memberId) throws SQLException, ClassNotFoundException;
+    public List<IssueDTO> findAllIssuesByMemberId(String memberId) ;
 
-    public int findIssuedBooksCount(String memberId) throws SQLException, ClassNotFoundException;
+    public int findIssuedBooksCount(String memberId) ;
 
-    public int availableBooksCount(String isbn) throws SQLException, ClassNotFoundException;
+    public int availableBooksCount(String isbn);
 
 
 }

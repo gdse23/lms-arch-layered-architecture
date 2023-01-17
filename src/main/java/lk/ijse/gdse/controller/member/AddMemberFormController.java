@@ -6,7 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageMembersFormController;
+import lk.ijse.gdse.dto.MemberDTO;
 import lk.ijse.gdse.model.ManageMemberModel;
+import lk.ijse.gdse.service.ServiceFactory;
+import lk.ijse.gdse.service.ServiceTypes;
+import lk.ijse.gdse.service.custom.MemberService;
+import lk.ijse.gdse.service.exception.DuplicateException;
 import lk.ijse.gdse.to.Member;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -19,10 +24,13 @@ public class AddMemberFormController {
     public TextField txtContact;
     public Button btnRegister;
 
+    public MemberService memberService;
+
     public TableView<MemberTM> tblMembers;
 
     public void init(TableView<MemberTM> tblMembers){
         this.tblMembers=tblMembers;
+        this.memberService= ServiceFactory.getInstance().getService(ServiceTypes.MEMBER);
     }
 
 
@@ -51,28 +59,20 @@ public class AddMemberFormController {
             return;
         }
 
-        //upto now all fields are validated
-        //let's do some business validations here...
-        else if (ManageMemberModel.existMemberById(txtID.getText())) {
-            new Alert(Alert.AlertType.ERROR,"MemberDTO Already Exists").show();
-            txtID.selectAll();
-            txtID.requestFocus();
-            return;
-        }
-        MemberTM member=new MemberTM(txtID.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText());
+        MemberDTO member=new MemberDTO(txtID.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText());
 
-        if(ManageMemberModel.addMember(new Member(member.getId(),member.getName(),member.getAddress(),member.getContact()))){
+        try {
+            MemberDTO memberDTO = memberService.saveMember(member);
             new Alert(Alert.AlertType.CONFIRMATION,"Successfully Registered !").show();
-            tblMembers.getItems().add(member);
+            tblMembers.getItems().add(new MemberTM(memberDTO.getId(), memberDTO.getName(), memberDTO.getAddress(), memberDTO.getContact()));
             txtID.clear();
             txtName.clear();
             txtAddress.clear();
             txtContact.clear();
             txtID.requestFocus();
-        }else{
-            new Alert(Alert.AlertType.ERROR,"Failed to Save the member !").show();
+        }catch (DuplicateException e){
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
-
 
     }
 }
