@@ -1,4 +1,3 @@
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/to/Book.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/book/UpdateBookFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/entity/SuperEntity.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/entity/Book.java
@@ -8,7 +7,6 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/entity/Return.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/util/Route.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/ServiceTypes.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageMemberModel.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/MemberDAO.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/custom/impl/IssueServiceImpl.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/ReturnDAO.java
@@ -19,7 +17,6 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/custom/impl/BookServiceImpl.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/ManageReturnsFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/view/tm/IssueTM.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/to/Member.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/ManageBooksFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/db/DBConnection.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/exception/DuplicateException.java
@@ -28,7 +25,6 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/view/tm/BookTM.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/DaoFactory.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/SplashScreenController.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageIssueModel.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/member/AddMemberFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/view/tm/ReturnTM.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/entity/Member.java
@@ -36,10 +32,8 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/SuperService.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/util/DBUtil.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/custom/impl/MemberServiceImpl.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/to/Status.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/ServiceFactory.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/exception/InUseException.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/to/Return.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/entity/Issue.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/custom/IssueService.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/SuperDAO.java
@@ -54,14 +48,11 @@
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/impl/BookDAOImpl.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/IssueDAO.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/AppInitializer.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageReturnModel.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/to/Issue.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dto/Status.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/service/exception/NotFoundException.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/QueryDAO.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/impl/QueryDAOImpl.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/custom/BookDAO.java
-/home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/model/ManageBookModel.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/book/AddBookFormController.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/dao/DaoTypes.java
 /home/pradeep/Documents/gdse/lms-arch/lms/src/main/java/lk/ijse/gdse/controller/member/ShowIssueListFormController.java

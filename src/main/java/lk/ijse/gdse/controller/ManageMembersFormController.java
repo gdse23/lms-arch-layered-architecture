@@ -17,7 +17,9 @@ import lk.ijse.gdse.controller.member.AddMemberFormController;
 import lk.ijse.gdse.controller.member.ShowIssueListFormController;
 import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.model.ManageMemberModel;
+import lk.ijse.gdse.service.ServiceFactory;
+import lk.ijse.gdse.service.ServiceTypes;
+import lk.ijse.gdse.service.custom.MemberService;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.IssueTM;
@@ -41,7 +43,10 @@ public class ManageMembersFormController {
     public Button btnUpdateDelete;
     public Button btnIssueList;
 
+    public MemberService memberService;
+
     public void initialize() throws SQLException, ClassNotFoundException {
+        this.memberService= ServiceFactory.getInstance().getService(ServiceTypes.MEMBER);
         btnUpdateDelete.setDisable(true);
         btnIssueList.setDisable(true);
         tblMembers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -49,14 +54,14 @@ public class ManageMembersFormController {
         tblMembers.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
         tblMembers.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contact"));
 
-        List<MemberTM> memberTMList = ManageMemberModel.getAllMembers().stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
+        List<MemberTM> memberTMList = memberService.findAllMembers().stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
 
         tblMembers.setItems(FXCollections.observableArrayList(memberTMList));
 
         txtSearchMember.textProperty().addListener((observableValue, pre, curr) ->{
             if (!Objects.equals(pre, curr)){
                 tblMembers.getItems().clear();
-                List<MemberTM> searchResult = ManageMemberModel.searchMembers(curr).stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
+                List<MemberTM> searchResult = memberService.searchMembersByText(curr).stream().map(member -> new MemberTM(member.getId(), member.getName(), member.getAddress(), member.getContact())).collect(Collectors.toList());
                 tblMembers.setItems(FXCollections.observableArrayList(searchResult));
             }
 

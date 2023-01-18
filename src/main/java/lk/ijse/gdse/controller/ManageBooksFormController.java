@@ -17,8 +17,9 @@ import lk.ijse.gdse.controller.book.UpdateBookFormController;
 import lk.ijse.gdse.controller.member.AddMemberFormController;
 import lk.ijse.gdse.controller.member.UpdateMemberFormController;
 import lk.ijse.gdse.db.DBConnection;
-import lk.ijse.gdse.model.ManageBookModel;
-import lk.ijse.gdse.to.Book;
+import lk.ijse.gdse.service.ServiceFactory;
+import lk.ijse.gdse.service.ServiceTypes;
+import lk.ijse.gdse.service.custom.BookService;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.BookTM;
@@ -42,21 +43,26 @@ public class ManageBooksFormController {
     public Button btnUpdate;
     public TableView<BookTM> tblBooks;
 
+    public BookService bookService;
+
     public void initialize() throws SQLException, ClassNotFoundException {
+
+        this.bookService= ServiceFactory.getInstance().getService(ServiceTypes.BOOK);
+
         btnUpdate.setDisable(true);
         tblBooks.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tblBooks.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("title"));
         tblBooks.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("author"));
         tblBooks.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("qty"));
 
-        List<BookTM> bookTMList = ManageBookModel.getAllBooks().stream().map(b -> new BookTM(b.getIsbn(), b.getTitle(), b.getAuthor(), b.getQty())).collect(Collectors.toList());
+        List<BookTM> bookTMList = bookService.findAllBooks().stream().map(b -> new BookTM(b.getIsbn(), b.getTitle(), b.getAuthor(), b.getQty())).collect(Collectors.toList());
 
         tblBooks.setItems(FXCollections.observableArrayList(bookTMList));
 
         txtSearch.textProperty().addListener((observableValue, pre, curr) ->{
             if (!Objects.equals(pre, curr)){
                 tblBooks.getItems().clear();
-                List<BookTM> bookList = ManageBookModel.searchBooks(curr).stream().map(book -> new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty())).collect(Collectors.toList());
+                List<BookTM> bookList = bookService.searchBookByText(curr).stream().map(book -> new BookTM(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getQty())).collect(Collectors.toList());
                 tblBooks.setItems(FXCollections.observableArrayList(bookList));
             }
 

@@ -9,10 +9,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.gdse.model.ManageBookModel;
-import lk.ijse.gdse.model.ManageIssueModel;
-import lk.ijse.gdse.model.ManageMemberModel;
-import lk.ijse.gdse.to.Issue;
+import lk.ijse.gdse.dto.IssueDTO;
+import lk.ijse.gdse.service.ServiceFactory;
+import lk.ijse.gdse.service.ServiceTypes;
+import lk.ijse.gdse.service.custom.IssueService;
+import lk.ijse.gdse.service.exception.NotFoundException;
 import lk.ijse.gdse.util.Navigation;
 import lk.ijse.gdse.util.Route;
 import lk.ijse.gdse.view.tm.IssueTM;
@@ -33,13 +34,17 @@ public class ManageIssuesFormController {
     public JFXButton btnIssue;
     public JFXButton btnUpdate;
 
+    public IssueService issueService;
+
     public void initialize(){
+
+        this.issueService= ServiceFactory.getInstance().getService(ServiceTypes.ISSUE);
         btnUpdate.setDisable(true);
         tblIssues.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("issueId"));
         tblIssues.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tblIssues.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("memberId"));
         tblIssues.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("date"));
-        List<IssueTM> issueTMList = ManageIssueModel.findAllIssues().stream().map(issue -> new IssueTM(issue.getIssueId(), issue.getIsbn(), issue.getMemberId(), issue.getDate())).collect(Collectors.toList());
+        List<IssueTM> issueTMList = issueService.findAllIssues().stream().map(issue -> new IssueTM(issue.getIssueId(), issue.getIsbn(), issue.getMemberId(), issue.getDate())).collect(Collectors.toList());
         tblIssues.getItems().addAll(FXCollections.observableArrayList(issueTMList));
         tblIssues.getSelectionModel().selectedItemProperty().addListener((observableValue, prev, curr)->{
 
@@ -70,7 +75,7 @@ public class ManageIssuesFormController {
             alert.get().show();
             return;
         }
-        Issue savedIssue = ManageIssueModel.saveIssue(new Issue(txtIsbn.getText(), txtMemberId.getText(), Date.valueOf(LocalDate.now())));
+        IssueDTO savedIssue = issueService.createIssue(new IssueDTO(txtIsbn.getText(), txtMemberId.getText(), Date.valueOf(LocalDate.now())));
         new Alert(Alert.AlertType.INFORMATION,"Successfully issued !").show();
         txtIsbn.clear();
         txtMemberId.clear();
@@ -89,13 +94,23 @@ public class ManageIssuesFormController {
         int selectedIndex = tblIssues.getSelectionModel().getSelectedIndex();
         selectedItem.setIsbn(txtIsbn.getText());
         selectedItem.setMemberId(txtMemberId.getText());
-        ManageIssueModel.updateIssue(new Issue(selectedItem.getIssueId(),selectedItem.getIsbn(), selectedItem.getMemberId(), selectedItem.getDate()));
-        txtIsbn.clear();
-        txtMemberId.clear();
-        tblIssues.getSelectionModel().clearSelection();
-        tblIssues.getItems().add(selectedIndex,selectedItem);
-        tblIssues.getItems().remove(selectedIndex+1);
-        tblIssues.refresh();
+
+        try {
+            issueService.updateIssue(new IssueDTO(selectedItem.getIssueId(),selectedItem.getIsbn(), selectedItem.getMemberId(), selectedItem.getDate()));
+            txtIsbn.clear();
+            txtMemberId.clear();
+            tblIssues.getSelectionModel().clearSelection();
+            tblIssues.getItems().add(selectedIndex,selectedItem);
+            tblIssues.getItems().remove(selectedIndex+1);
+            tblIssues.refresh();
+
+        }catch (NotFoundException e){
+            new Alert(Alert.AlertType.WARNING,"No issue found for given ID!").show();
+        }
+
+
+
+
 
     }
 
@@ -108,12 +123,6 @@ public class ManageIssuesFormController {
 
         else if (memberId.isBlank()|| !memberId.matches("^M\\d{3}$")) {
             alert.setHeaderText("Invalid MemberDTO Id");
-            return Optional.of(alert);
-        }else if (!ManageMemberModel.existMemberById(txtMemberId.getText())) {
-            alert.setHeaderText("MemberDTO does not exists!");
-            return Optional.of(alert);
-        } else if (!ManageBookModel.existBookByIsbn(txtIsbn.getText())) {
-            alert.setHeaderText("BookDTO does not found!");
             return Optional.of(alert);
         }
 

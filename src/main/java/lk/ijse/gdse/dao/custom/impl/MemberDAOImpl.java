@@ -112,7 +112,7 @@ public class MemberDAOImpl implements MemberDAO {
     private List<Member> getMemberList(ResultSet rst) throws SQLException {
         List<Member> memberList= new ArrayList<>();
         while (rst.next()){
-            Member member = new Member(rst.getString("memberId"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
+            Member member = new Member(rst.getString("id"), rst.getString("name"), rst.getString("address"), rst.getString("contact"));
             memberList.add(member);
         }
         return memberList;

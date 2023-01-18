@@ -6,7 +6,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.dto.IssueDTO;
-import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.service.ServiceFactory;
 import lk.ijse.gdse.service.ServiceTypes;
 import lk.ijse.gdse.service.custom.IssueService;
@@ -43,11 +42,6 @@ public class ShowIssueListFormController {
         tblIssueList.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("issueId"));
         tblIssueList.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("date"));
         tblIssueList.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        System.out.println(selectedItem.getId());
-        System.out.println(selectedMember.getId());
-
-
 
 
         tblIssueList.getItems().addAll(FXCollections.observableArrayList(memberService.

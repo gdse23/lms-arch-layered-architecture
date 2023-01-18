@@ -28,13 +28,6 @@ public class QueryDAOImpl implements QueryDAO {
 
                 IssueDTO issueDTO = new IssueDTO(rst.getInt("issue_id"), rst.getString("isbn"), memberId, rst.getDate("date"), rst.getBoolean("returnStatus") ?
                         Status.RETURNED : Status.NOT_RETURNED);
-
-                System.out.println("===========================================================");
-
-                System.out.println(issueDTO);
-
-                System.out.println("===========================================================");
-
                 issueDTOList.add(issueDTO);
             }
             return issueDTOList;

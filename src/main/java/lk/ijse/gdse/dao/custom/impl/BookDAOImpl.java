@@ -105,7 +105,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> searchByText(String text){
         try{
             text="%"+text+"%";
-            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text, text);
+            ResultSet rst = DBUtil.executeQuery("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR author LIKE ? ", text, text, text);
             return getBookList(rst);
         } catch (SQLException e) {
             throw new RuntimeException(e);

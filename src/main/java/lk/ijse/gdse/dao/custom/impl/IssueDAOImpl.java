@@ -84,7 +84,7 @@ public class IssueDAOImpl implements IssueDAO {
         try {
             ResultSet rst = DBUtil.executeQuery("SELECT * FROM issue WHERE issue_id =?", issueId);
             if(rst.next()){
-                return Optional.of(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("datet")));
+                return Optional.of(new Issue(rst.getInt("issue_id"),rst.getString("isbn"),rst.getString("memberId"),rst.getDate("date")));
             }
             return Optional.empty();
         } catch (SQLException e) {

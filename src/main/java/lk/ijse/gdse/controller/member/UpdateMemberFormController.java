@@ -4,13 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.dto.MemberDTO;
-import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.service.ServiceFactory;
 import lk.ijse.gdse.service.ServiceTypes;
 import lk.ijse.gdse.service.custom.MemberService;
 import lk.ijse.gdse.service.exception.InUseException;
 import lk.ijse.gdse.service.exception.NotFoundException;
-import lk.ijse.gdse.to.Member;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.sql.SQLException;
@@ -61,10 +59,10 @@ public class UpdateMemberFormController {
             txtContact.requestFocus();
             return;
         }
-        Member updatedMember = new Member(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
+        MemberDTO updatedMember = new MemberDTO(memberTM.getId(), txtName.getText(), txtAddress.getText(), txtContact.getText());
 
         try {
-            memberService.updateMember(new MemberDTO(updatedMember.getId(), updatedMember.getName(), updatedMember.getAddress(), updatedMember.getContact()));
+            memberService.updateMember(updatedMember);
             int selectedIndex = manageMembersController.tblMembers.getSelectionModel()
                     .getSelectedIndex();
             manageMembersController.tblMembers.getItems()

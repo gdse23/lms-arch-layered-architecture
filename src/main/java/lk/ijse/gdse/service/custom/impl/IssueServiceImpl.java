@@ -80,4 +80,9 @@ public class IssueServiceImpl implements IssueService {
 
         return convertor.fromReturn(savedReturn);
     }
+
+    @Override
+    public List<ReturnDTO> findAllReturns() {
+        return returnDAO.findAll().stream().map(aReturn -> convertor.fromReturn(aReturn)).collect(Collectors.toList());
+    }
 }

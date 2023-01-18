@@ -18,4 +18,6 @@ public interface IssueService extends SuperService {
     public List<IssueDTO> findAllIssues();
 
     public ReturnDTO returnIssue(int issueId) throws NotFoundException;
+
+    public List<ReturnDTO> findAllReturns();
 }

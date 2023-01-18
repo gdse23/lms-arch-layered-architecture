@@ -3,8 +3,12 @@ package lk.ijse.gdse.controller.book;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.gdse.controller.ManageBooksFormController;
-import lk.ijse.gdse.model.ManageBookModel;
-import lk.ijse.gdse.to.Book;
+import lk.ijse.gdse.dto.BookDTO;
+import lk.ijse.gdse.service.ServiceFactory;
+import lk.ijse.gdse.service.ServiceTypes;
+import lk.ijse.gdse.service.custom.BookService;
+import lk.ijse.gdse.service.exception.InUseException;
+import lk.ijse.gdse.service.exception.NotFoundException;
 import lk.ijse.gdse.view.tm.BookTM;
 import lk.ijse.gdse.view.tm.MemberTM;
 
@@ -18,6 +22,8 @@ public class UpdateBookFormController {
     public Button btnDelete;
     public Label lblIsbn;
     public BookTM bookTM;
+
+    public BookService bookService;
     public ManageBooksFormController manageBooksController;
 
 
@@ -25,6 +31,7 @@ public class UpdateBookFormController {
         this.bookTM=bookTM;
         this.manageBooksController =manageBooksController;
         fillAllFields(bookTM);
+        bookService= ServiceFactory.getInstance().getService(ServiceTypes.BOOK);
     }
     private void fillAllFields(BookTM bookTM){
         lblIsbn.setText(bookTM.getIsbn());
@@ -37,12 +44,21 @@ public class UpdateBookFormController {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure to delete the member", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get()==ButtonType.YES){
-            if(ManageBookModel.deleteBookByIsbn(bookTM.getIsbn())) {
-                new Alert(Alert.AlertType.INFORMATION,"MemberDTO delete successful").show();
+
+            try {
+                bookService.deleteBook(bookTM.getIsbn());
+                new Alert(Alert.AlertType.INFORMATION,"Book delete successful").show();
                 manageBooksController.tblBooks.getItems().
                         removeAll(manageBooksController.tblBooks.getSelectionModel().getSelectedItem());
                 btnDelete.getScene().getWindow().hide();
-            }else new Alert(Alert.AlertType.ERROR,"Failed to delete the book ,try again !").show();
+
+            }catch (InUseException e){
+                new Alert(Alert.AlertType.WARNING,"Book already issued some members, please return them before delete!").show();
+
+            }catch (NotFoundException e){
+                new Alert(Alert.AlertType.WARNING,"No book found for given isbn!").show();
+            }
+
         }
     }
 
@@ -68,16 +84,20 @@ public class UpdateBookFormController {
 
         //Upto now all fields are validated
 
-        Book updatedBook = new Book(bookTM.getIsbn(), txtTitle.getText(), txtAuthor.getText(), Integer.parseInt(txtQty.getText()));
-        if(ManageBookModel.updateBook(updatedBook)){
-            int selectedIndex = manageBooksController.tblBooks.getSelectionModel()
-                    .getSelectedIndex();
-            manageBooksController.tblBooks.getItems()
-                    .add(selectedIndex,new BookTM(updatedBook.getIsbn(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getQty()));
-            manageBooksController.tblBooks.getItems().remove(selectedIndex+1);
-            new Alert(Alert.AlertType.INFORMATION,"BookDTO has been successfully updated!").show();
-        }else {
-            new Alert(Alert.AlertType.ERROR,"Failed to update the BookDTO details,try again!").show();
+        BookDTO updatedBook = new BookDTO(bookTM.getIsbn(), txtTitle.getText(), txtAuthor.getText(), Integer.parseInt(txtQty.getText()));
+        try {
+            if(bookService.updateBook(updatedBook)!=null){
+                int selectedIndex = manageBooksController.tblBooks.getSelectionModel()
+                        .getSelectedIndex();
+                manageBooksController.tblBooks.getItems()
+                        .add(selectedIndex,new BookTM(updatedBook.getIsbn(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getQty()));
+                manageBooksController.tblBooks.getItems().remove(selectedIndex+1);
+                new Alert(Alert.AlertType.INFORMATION,"BookDTO has been successfully updated!").show();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Failed to update the BookDTO details,try again!").show();
+            }
+        }catch (NotFoundException e){
+            new Alert(Alert.AlertType.WARNING,"Book not found for given isbn!").show();
         }
     }
 }

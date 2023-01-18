@@ -7,12 +7,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lk.ijse.gdse.controller.ManageMembersFormController;
 import lk.ijse.gdse.dto.MemberDTO;
-import lk.ijse.gdse.model.ManageMemberModel;
 import lk.ijse.gdse.service.ServiceFactory;
 import lk.ijse.gdse.service.ServiceTypes;
 import lk.ijse.gdse.service.custom.MemberService;
 import lk.ijse.gdse.service.exception.DuplicateException;
-import lk.ijse.gdse.to.Member;
 import lk.ijse.gdse.view.tm.MemberTM;
 
 import java.sql.SQLException;
